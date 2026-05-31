@@ -5,7 +5,7 @@ Primeiros protótipos :
 1 Versão :
 https://ifb-path-guide.base44.app/ 
 2 Versão alternativa:
-https://guia-ifb-copy-0b06b923.base44.app/scanner
+https://guia-ifb-copy-2339c263.base44.app
 
 
-https://ifb-path-guide.base44.app
+https://guia-ifb-copy-2339c263.base44.app
