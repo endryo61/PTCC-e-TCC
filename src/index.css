@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Accessibility settings */
+body.high-contrast {
+  filter: contrast(1.5);
+}
+body.large-text {
+  font-size: 1.15em;
+}
+body.reduce-animations * {
+  animation: none !important;
+  transition: none !important;
+}
+
 * {
   box-sizing: border-box;
 }

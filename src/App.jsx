@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import InstallBanner from './components/InstallBanner.jsx'
+import FeedbackButton from './components/FeedbackButton.jsx'
+import VLibras from './components/VLibras.jsx'
 import Home from './pages/Home.jsx'
 import Scanner from './pages/Scanner.jsx'
 import Locations from './pages/Locations.jsx'
@@ -19,6 +21,8 @@ export default function App() {
         </Routes>
       </main>
       <InstallBanner />
+      <FeedbackButton />
+      <VLibras />
     </div>
   )
 }

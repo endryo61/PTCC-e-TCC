@@ -21,17 +21,17 @@ export default function Navbar() {
           </div>
         </NavLink>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               end={item.to === '/'}
               className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                `flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   isActive
                     ? 'bg-ifb-green text-white'
-                    : 'text-ifb-text-light hover:bg-gray-100'
+                    : 'text-ifb-text-light hover:text-ifb-text'
                 }`
               }
             >

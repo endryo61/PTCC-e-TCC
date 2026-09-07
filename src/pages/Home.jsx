@@ -4,7 +4,11 @@ import StepByStep from '../components/StepByStep.jsx'
 import { locations } from '../data/locations.js'
 
 export default function Home() {
-  const featured = locations.slice(0, 3)
+  const featured = [
+    { ...locations.find((l) => l.id === 'biblioteca') },
+    { ...locations.find((l) => l.id === 'registro') },
+    { ...locations.find((l) => l.id === 'lab-info') },
+  ]
 
   return (
     <div>
@@ -14,7 +18,7 @@ export default function Home() {
           <div>
             <span className="badge mb-4">✈️ Navegação AR · IFB Brasília</span>
             <h1 className="text-4xl lg:text-5xl font-bold text-ifb-text leading-tight mb-4">
-              Encontre qualquer lugar no <span className="text-ifb-green">campus</span> IFB
+              Encontre qualquer lugar no <span className="text-ifb-green">campus IFB</span>
             </h1>
             <p className="text-lg text-ifb-text-light mb-8 max-w-md">
               Escaneie o QR Code e receba direções em realidade aumentada com guia por voz —
@@ -30,21 +34,21 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Visual: QR + floating location cards */}
+          {/* Visual: QR Code center + floating location cards */}
           <div className="relative flex items-center justify-center min-h-[360px]">
             <div className="absolute w-72 h-72 rounded-full border-2 border-dashed border-ifb-border"></div>
-            <div className="relative z-10 w-40 h-40 bg-white rounded-2xl shadow-lg border border-ifb-border flex flex-col items-center justify-center gap-2">
-              <div className="w-16 h-16 rounded-lg bg-ifb-green flex items-center justify-center text-white font-bold text-lg">
-                IFB
+            <div className="relative z-10 w-40 h-40 bg-white rounded-2xl shadow-lg border border-ifb-border flex flex-col items-center justify-center gap-3">
+              <div className="w-16 h-16 rounded-lg bg-ifb-green flex items-center justify-center text-white text-3xl">
+                📱
               </div>
-              <p className="text-xs text-ifb-text-light text-center px-2">
-                Instituto Federal
+              <p className="text-xs text-ifb-text-light text-center px-2 font-medium">
+                QR Code
               </p>
             </div>
             {featured.map((loc, i) => {
               const positions = [
-                'top-0 left-0',
-                'bottom-0 left-0',
+                'top-2 left-2',
+                'bottom-2 left-2',
                 'top-1/2 right-0 -translate-y-1/2',
               ]
               return (
