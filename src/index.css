@@ -1,0 +1,78 @@
+/**
+ * index.css — Estilos globais do IFB NavAR
+ *
+ * Estrutura:
+ * 1. Tailwind directives (base, components, utilities)
+ * 2. Classes de acessibilidade (aplicadas dinamicamente via JS)
+ * 3. Reset básico e tipografia
+ * 4. Componentes reutilizáveis (botões, cards, badges)
+ *
+ * Paleta de cores (definida em tailwind.config.js):
+ * - ifb-green: #1e7e48 (verde institucional)
+ * - ifb-green-dark: #176b3c (hover)
+ * - ifb-green-light: #e6f2eb (fundo claro)
+ * - ifb-border: #e2e8f0 (bordas sutis)
+ * - ifb-text: #1a2e1a (texto principal — tom levemente verde)
+ * - ifb-text-light: #64748b (texto secundário)
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   ACESSIBILIDADE — Classes aplicadas via JS
+   quando o usuário ativa as opções em /acessibilidade
+   ============================================ */
+body.high-contrast {
+  filter: contrast(1.5);
+}
+body.large-text {
+  font-size: 1.15em;
+}
+body.reduce-animations * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* ============================================
+   RESET E TIPOGRAFIA
+   ============================================ */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #f8faf9;
+  color: #1a2e1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================
+   COMPONENTES REUTILIZÁVEIS
+   ============================================ */
+@layer components {
+  /* Botão primário — verde institucional */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-ifb-green text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-ifb-green-dark transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+
+  /* Botão secundário — contorno */
+  .btn-outline {
+    @apply inline-flex items-center gap-2 border border-ifb-border bg-white text-ifb-text font-semibold px-5 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200;
+  }
+
+  /* Badge/tag — fundo verde claro */
+  .badge {
+    @apply inline-flex items-center gap-1.5 bg-ifb-green-light text-ifb-green text-sm font-medium px-3 py-1 rounded-full;
+  }
+
+  /* Card padrão */
+  .card {
+    @apply bg-white rounded-2xl border border-ifb-border transition-all duration-200;
+  }
+}

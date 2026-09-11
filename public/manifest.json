@@ -1,0 +1,17 @@
+{
+  "name": "IFB NavAR — Navegação Acessível",
+  "short_name": "IFB NavAR",
+  "description": "Guia de navegação acessível do campus IFB com QR Code, AR e guia por voz",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#1e7e48",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
