@@ -6,6 +6,7 @@ import VLibras from './components/VLibras.jsx'
 import Home from './pages/Home.jsx'
 import Scanner from './pages/Scanner.jsx'
 import Locations from './pages/Locations.jsx'
+import MapaInterno from './pages/MapaInterno.jsx'
 import Accessibility from './pages/Accessibility.jsx'
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/scanner" element={<Scanner />} />
           <Route path="/locais" element={<Locations />} />
+          <Route path="/mapa-interno" element={<MapaInterno />} />
           <Route path="/acessibilidade" element={<Accessibility />} />
         </Routes>
       </main>

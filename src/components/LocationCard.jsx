@@ -11,19 +11,19 @@ export default function LocationCard({ location }) {
           <h3 className="font-semibold text-ifb-text">{location.name}</h3>
           <p className="text-xs text-ifb-text-light">{location.location}</p>
         </div>
-        <span className="text-xs font-medium bg-ifb-green-light text-ifb-green px-2 py-0.5 rounded-full">
+        <span className="text-xs font-medium bg-ifb-green-light text-ifb-green px-2 py-0.5 rounded-full whitespace-nowrap">
           {location.category}
         </span>
       </div>
       <p className="text-sm text-ifb-text-light">{location.description}</p>
-      <div className="flex items-center gap-4 text-sm pt-2 border-t border-ifb-border">
+      <div className="flex items-center gap-3 text-sm pt-2 border-t border-ifb-border flex-wrap">
         <span className="font-bold text-ifb-green">⏱️ {location.time}</span>
         <span className="text-ifb-text-light">🕐 {location.hours}</span>
         {location.accessible && <span className="text-ifb-green">♿</span>}
       </div>
       <button
         onClick={() => navigate('/scanner')}
-        className="btn-primary text-sm py-2 self-start"
+        className="text-ifb-green font-medium text-sm hover:underline self-start"
       >
         Navegar →
       </button>

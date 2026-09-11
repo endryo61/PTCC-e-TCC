@@ -16,17 +16,14 @@ export default function Accessibility() {
   const [voiceResult, setVoiceResult] = useState(null)
   const recognitionRef = useRef(null)
 
-  // Load settings from localStorage
   useEffect(() => {
     const saved = localStorage.getItem('ifb-accessibility')
     if (saved) setSettings(JSON.parse(saved))
   }, [])
 
-  // Save settings and apply effects
   useEffect(() => {
     localStorage.setItem('ifb-accessibility', JSON.stringify(settings))
     const body = document.body
-
     body.classList.toggle('high-contrast', settings.highContrast)
     body.classList.toggle('large-text', settings.largeText)
     body.classList.toggle('reduce-animations', settings.reduceAnimations)
@@ -100,6 +97,31 @@ export default function Accessibility() {
       <h1 className="text-3xl font-bold text-ifb-text mb-1">Acessibilidade</h1>
       <p className="text-ifb-text-light mb-6">Ajuste o app às suas necessidades</p>
 
+      {/* Preference cards */}
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="bg-white rounded-xl border border-ifb-border p-4 text-center">
+          <span className="text-2xl block mb-1">🌓</span>
+          <p className="text-xs font-medium text-ifb-text">Alto Contraste</p>
+          <p className="text-[10px] text-ifb-green bg-ifb-green-light inline-block px-2 py-0.5 rounded-full mt-1">
+            {settings.highContrast ? 'Ativado' : 'Desativado'}
+          </p>
+        </div>
+        <div className="bg-white rounded-xl border border-ifb-border p-4 text-center">
+          <span className="text-2xl block mb-1">🎧</span>
+          <p className="text-xs font-medium text-ifb-text">Leitor de Tela</p>
+          <p className="text-[10px] text-ifb-green bg-ifb-green-light inline-block px-2 py-0.5 rounded-full mt-1">
+            {settings.screenReader ? 'Ativado' : 'Desativado'}
+          </p>
+        </div>
+        <div className="bg-white rounded-xl border border-ifb-border p-4 text-center">
+          <span className="text-2xl block mb-1">🤟</span>
+          <p className="text-xs font-medium text-ifb-text">VLibras</p>
+          <p className="text-[10px] text-ifb-green bg-ifb-green-light inline-block px-2 py-0.5 rounded-full mt-1">
+            Libras
+          </p>
+        </div>
+      </div>
+
       {/* Info alert */}
       <div className="flex items-start gap-3 p-4 rounded-xl bg-ifb-green-light border border-ifb-green mb-6">
         <span className="text-ifb-green text-lg">ℹ️</span>
@@ -125,6 +147,14 @@ export default function Accessibility() {
           }`}
         >
           Comando de Voz
+        </button>
+        <button
+          onClick={() => setActiveTab('libras')}
+          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === 'libras' ? 'bg-white text-ifb-text shadow-sm' : 'text-ifb-text-light'
+          }`}
+        >
+          🤟 Libras
         </button>
       </div>
 
@@ -234,6 +264,49 @@ export default function Accessibility() {
                   </div>
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Libras tab */}
+      {activeTab === 'libras' && (
+        <div className="bg-white rounded-2xl border border-ifb-border p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-xl bg-ifb-green-light flex items-center justify-center text-2xl">
+              🤟
+            </div>
+            <div>
+              <h2 className="font-semibold text-ifb-text">VLibras — Libras</h2>
+              <p className="text-sm text-ifb-text-light">Tradução automática para Língua Brasileira de Sinais</p>
+            </div>
+          </div>
+          <div className="p-4 rounded-xl bg-ifb-green-light mb-4">
+            <p className="text-sm text-ifb-text">
+              O widget do VLibras está ativo no canto direito da tela. Clique no ícone azul 🤟 para abrir o tradutor de Libras e traduzir qualquer texto do app para língua de sinais.
+            </p>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
+              <span className="text-2xl">🤟</span>
+              <div>
+                <p className="font-medium text-sm text-ifb-text">Widget VLibras ativo</p>
+                <p className="text-xs text-ifb-text-light">Disponível em todas as páginas do app</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
+              <span className="text-2xl">📖</span>
+              <div>
+                <p className="font-medium text-sm text-ifb-text">Como usar</p>
+                <p className="text-xs text-ifb-text-light">Clique no ícone azul, selecione o texto e veja a tradução em Libras</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
+              <span className="text-2xl">♿</span>
+              <div>
+                <p className="font-medium text-sm text-ifb-text">Acessibilidade total</p>
+                <p className="text-xs text-ifb-text-light">Conteúdo acessível para pessoas surdas</p>
+              </div>
             </div>
           </div>
         </div>

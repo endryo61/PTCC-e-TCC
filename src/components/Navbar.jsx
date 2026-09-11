@@ -4,6 +4,7 @@ const navItems = [
   { to: '/', label: 'Início', icon: '🏠' },
   { to: '/scanner', label: 'Escanear', icon: '📷' },
   { to: '/locais', label: 'Locais', icon: '📍' },
+  { to: '/mapa-interno', label: 'Mapa Interno', icon: '🗺️' },
   { to: '/acessibilidade', label: 'Acessibilidade', icon: '♿' },
 ]
 
@@ -36,7 +37,7 @@ export default function Navbar() {
               }
             >
               <span className="text-base">{item.icon}</span>
-              <span className="hidden sm:inline">{item.label}</span>
+              <span className="hidden lg:inline">{item.label}</span>
             </NavLink>
           ))}
         </div>
