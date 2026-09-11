@@ -1,3 +1,21 @@
+/**
+ * App.jsx — Componente raiz do IFB NavAR
+ *
+ * Define a estrutura base do app:
+ * - Navbar (fixa no topo)
+ * - Rotas (React Router v6)
+ * - InstallBanner (banner PWA)
+ * - FeedbackButton (botão flutuante)
+ * - VLibras (widget de tradução para Libras)
+ *
+ * Para adicionar uma nova página:
+ * 1. Crie o componente em src/pages/
+ * 2. Importe-o aqui
+ * 3. Adicione uma <Route> abaixo
+ * 4. Adicione o link em src/components/Navbar.jsx
+ *
+ * @author IFB NavAR Team
+ */
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import InstallBanner from './components/InstallBanner.jsx'

@@ -1,3 +1,25 @@
+/**
+ * locations.js — Dados de locais do campus IFB Brasília
+ *
+ * Este arquivo centraliza todos os dados de locais exibidos no app.
+ * Existem 3 exports:
+ *
+ * 1. `locations` — 8 locais exibidos na página /locais
+ * 2. `categories` — categorias para filtro da página /locais
+ * 3. `mapLocations` — 10 locais exibidos na página /mapa-interno
+ * 4. `mapCategories` — categorias para filtro do mapa
+ *
+ * Para adicionar um novo local:
+ * 1. Adicione um objeto ao array `locations` (ou `mapLocations`)
+ * 2. Use um `id` único (string)
+ * 3. Se criar uma categoria nova, adicione-a ao array `categories`
+ *
+ * @author IFB NavAR Team
+ */
+
+// ============================================
+// LOCAIS — Página /locais (8 locais)
+// ============================================
 export const locations = [
   {
     id: 'biblioteca',
@@ -89,8 +111,12 @@ export const locations = [
   },
 ]
 
+// Categorias para filtro da página /locais
 export const categories = ['Todos', 'Acadêmico', 'Administrativo', 'Serviços', 'Lazer', 'Laboratório']
 
+// ============================================
+// MAPA — Página /mapa-interno (10 locais)
+// ============================================
 export const mapLocations = [
   { id: 'entrada', name: 'Entrada Principal', icon: '🚪', sub: 'Portão', time: null, category: 'Acesso' },
   { id: 'recepcao', name: 'Recepção / Guarita', icon: '🏠', sub: '1 min', time: '1 min', category: 'Acesso' },
@@ -104,4 +130,5 @@ export const mapLocations = [
   { id: 'coord-pedagogica', name: 'Coordenação Pedagógica', icon: '🎓', sub: '4 min', time: '4 min', category: 'Ensino' },
 ]
 
+// Categorias para filtro do mapa
 export const mapCategories = ['Todos', 'Ensino', 'Adm.', 'Serviços', 'Acesso', 'Lazer']
