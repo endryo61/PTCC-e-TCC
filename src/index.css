@@ -1,19 +1,11 @@
 /**
  * index.css — Estilos globais do IFB NavAR
  *
- * Estrutura:
- * 1. Tailwind directives (base, components, utilities)
- * 2. Classes de acessibilidade (aplicadas dinamicamente via JS)
- * 3. Reset básico e tipografia
- * 4. Componentes reutilizáveis (botões, cards, badges)
- *
- * Paleta de cores (definida em tailwind.config.js):
- * - ifb-green: #1e7e48 (verde institucional)
- * - ifb-green-dark: #176b3c (hover)
- * - ifb-green-light: #e6f2eb (fundo claro)
- * - ifb-border: #e2e8f0 (bordas sutis)
- * - ifb-text: #1a2e1a (texto principal — tom levemente verde)
- * - ifb-text-light: #64748b (texto secundário)
+ * Design: Institucional Sóbrio
+ * - Superfície clara (#FAFBFC), texto em cinza-grafite (#1A1D23)
+ * - Verde IFB (#1e7e48) usado pontualmente em CTAs, links ativos e badges
+ * - Cantos 8px (rounded-lg), bordas finas (#E5E7EB), sombras sutis
+ * - Acessibilidade WCAG 2.1 AA: foco visível, contraste 4.5:1+
  */
 
 @tailwind base;
@@ -35,6 +27,16 @@ body.reduce-animations * {
   transition: none !important;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ============================================
    RESET E TIPOGRAFIA
    ============================================ */
@@ -45,11 +47,24 @@ body.reduce-animations * {
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #f8faf9;
-  color: #1a2e1a;
+  background: #FAFBFC;
+  color: #1A1D23;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.01em;
+  line-height: 1.6;
+}
+
+/* ============================================
+   FOCO VISÍVEL — WCAG 2.1 AA
+   ============================================ */
+*:focus-visible {
+  outline: 2px solid #1e7e48;
+  outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* ============================================
@@ -58,12 +73,12 @@ body {
 @layer components {
   /* Botão primário — verde institucional */
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-ifb-green text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-ifb-green-dark transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply inline-flex items-center gap-2 bg-ifb-green text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-ifb-green-dark transition-all duration-200 shadow-soft;
   }
 
   /* Botão secundário — contorno */
   .btn-outline {
-    @apply inline-flex items-center gap-2 border border-ifb-border bg-white text-ifb-text font-semibold px-5 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200;
+    @apply inline-flex items-center gap-2 border border-ifb-border bg-white text-ifb-text font-semibold px-5 py-2.5 rounded-lg hover:bg-ifb-gray hover:border-gray-300 transition-all duration-200;
   }
 
   /* Badge/tag — fundo verde claro */
@@ -73,6 +88,6 @@ body {
 
   /* Card padrão */
   .card {
-    @apply bg-white rounded-2xl border border-ifb-border transition-all duration-200;
+    @apply bg-white rounded-lg border border-ifb-border transition-all duration-200;
   }
 }

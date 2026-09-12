@@ -1,9 +1,6 @@
 /**
  * FeatureSection.jsx — Seção "Funcionalidades" da Home
  *
- * Exibe uma grade de 6 cards com os recursos principais do app.
- * Cada card tem ícone SVG, título e descrição.
- *
  * @author IFB NavAR Team
  */
 import Icon from './Icon.jsx'
@@ -19,7 +16,7 @@ const features = [
 
 export default function FeatureSection() {
   return (
-    <section className="py-16 lg:py-20 bg-white">
+    <section className="py-16 lg:py-20 bg-ifb-gray">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-2xl lg:text-3xl font-bold text-ifb-text mb-2">
@@ -32,7 +29,7 @@ export default function FeatureSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((f) => (
             <div key={f.title} className="card p-6 hover:shadow-card-hover">
-              <div className="w-12 h-12 rounded-xl bg-ifb-green-light flex items-center justify-center text-ifb-green mb-4">
+              <div className="w-12 h-12 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green mb-4">
                 <Icon name={f.icon} size={24} strokeWidth={1.8} />
               </div>
               <h3 className="font-semibold text-ifb-text mb-1.5 text-[15px]">{f.title}</h3>

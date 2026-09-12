@@ -1,12 +1,6 @@
 /**
  * Home.jsx — Página inicial do IFB NavAR
  *
- * Estrutura:
- * 1. Hero — título, subtítulo, CTAs e visual com QR Code + cards flutuantes
- * 2. FeatureSection — grade de funcionalidades
- * 3. StepByStep — passo a passo de uso
- * 4. CTA — chamada final para ação
- *
  * @author IFB NavAR Team
  */
 import { Link } from 'react-router-dom'
@@ -33,7 +27,7 @@ export default function Home() {
   return (
     <div>
       {/* ========== HERO ========== */}
-      <section className="bg-white py-12 lg:py-20">
+      <section className="bg-white py-14 lg:py-20">
         <div className="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
           {/* Texto */}
           <div>
@@ -50,12 +44,12 @@ export default function Home() {
               acessível para todos, incluindo pessoas com deficiência visual.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link to="/scanner" className="btn-primary">
+              <Link to="/scanner" className="btn-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40">
                 <Icon name="scan" size={18} strokeWidth={2} />
                 Escanear QR Code
                 <Icon name="arrowRight" size={16} strokeWidth={2} />
               </Link>
-              <Link to="/acessibilidade" className="btn-outline">
+              <Link to="/acessibilidade" className="btn-outline focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40">
                 <Icon name="volume" size={18} strokeWidth={2} />
                 Guia por Voz
               </Link>
@@ -68,8 +62,8 @@ export default function Home() {
             <div className="absolute w-80 h-80 rounded-full border-2 border-dashed border-ifb-border opacity-60" />
 
             {/* Card central com QR Code */}
-            <div className="relative z-10 w-44 h-44 bg-white rounded-2xl shadow-card border border-ifb-border flex flex-col items-center justify-center gap-4">
-              <div className="w-16 h-16 rounded-xl bg-ifb-green flex items-center justify-center text-white">
+            <div className="relative z-10 w-44 h-44 bg-white rounded-lg shadow-soft border border-ifb-border flex flex-col items-center justify-center gap-4">
+              <div className="w-16 h-16 rounded-lg bg-ifb-green flex items-center justify-center text-white">
                 <Icon name="qrCode" size={36} strokeWidth={1.5} />
               </div>
               <p className="text-xs text-ifb-text-light font-medium">QR Code</p>
@@ -79,7 +73,7 @@ export default function Home() {
             {featured.map((loc, i) => (
               <div
                 key={loc.id}
-                className={`absolute ${cardPositions[i]} z-20 bg-white rounded-xl shadow-card border border-ifb-border p-3 flex items-center gap-2.5`}
+                className={`absolute ${cardPositions[i]} z-20 bg-white rounded-lg shadow-soft border border-ifb-border p-3 flex items-center gap-2.5`}
               >
                 <span className="text-xl">{loc.icon}</span>
                 <div>
@@ -104,7 +98,7 @@ export default function Home() {
           </p>
           <Link
             to="/scanner"
-            className="inline-flex items-center gap-2 bg-white text-ifb-green font-semibold px-6 py-3 rounded-xl hover:bg-gray-50 transition-colors shadow-md"
+            className="inline-flex items-center gap-2 bg-white text-ifb-green font-semibold px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors shadow-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           >
             <Icon name="scan" size={18} strokeWidth={2} />
             Começar agora

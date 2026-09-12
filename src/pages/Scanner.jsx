@@ -1,13 +1,6 @@
 /**
  * Scanner.jsx — Página de escaneamento de QR Code
  *
- * Funcionalidades:
- * 1. Scanner de câmera real via html5-qrcode (abre câmera traseira)
- * 2. Seção de simulação — botões para testar sem QR Code físico
- * 3. Exibição do resultado com seleção de destino
- *
- * Dependências: html5-qrcode (instalado via npm)
- *
  * @author IFB NavAR Team
  */
 import { useState, useRef, useEffect } from 'react'
@@ -76,11 +69,11 @@ export default function Scanner() {
       <p className="text-ifb-text-light mb-6">Aponte para o código no campus</p>
 
       {/* Card do scanner */}
-      <div className="bg-white rounded-2xl border-2 border-dashed border-ifb-border p-8 mb-6">
-        <div id={containerId} className="w-full min-h-[200px] rounded-xl overflow-hidden bg-gray-900 flex items-center justify-center">
+      <div className="bg-white rounded-lg border-2 border-dashed border-ifb-border p-8 mb-6">
+        <div id={containerId} className="w-full min-h-[200px] rounded-lg overflow-hidden bg-gray-900 flex items-center justify-center">
           {!scanning && !result && (
             <div className="text-center text-white/50 py-12">
-              <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-white/10 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-3 rounded-lg bg-white/10 flex items-center justify-center">
                 <Icon name="qrCode" size={32} strokeWidth={1.5} className="text-white/70" />
               </div>
               <p className="text-sm font-medium">Pronto para escanear</p>
@@ -98,12 +91,12 @@ export default function Scanner() {
 
         <div className="flex gap-3 mt-4">
           {!scanning ? (
-            <button onClick={startScanner} className="btn-primary flex-1 justify-center">
+            <button onClick={startScanner} className="btn-primary flex-1 justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40">
               <Icon name="scan" size={18} strokeWidth={2} />
               Abrir Câmera
             </button>
           ) : (
-            <button onClick={stopScanner} className="btn-outline flex-1 justify-center">
+            <button onClick={stopScanner} className="btn-outline flex-1 justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40">
               Parar Câmera
             </button>
           )}
@@ -128,7 +121,7 @@ export default function Scanner() {
               <button
                 key={loc.id}
                 onClick={() => navigate('/locais')}
-                className="flex items-center gap-2 p-3 rounded-xl border border-ifb-border hover:bg-gray-50 transition-colors text-left"
+                className="flex items-center gap-2 p-3 rounded-lg border border-ifb-border hover:bg-gray-50 transition-colors text-left min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
               >
                 <span className="text-xl">{loc.icon}</span>
                 <div>
@@ -151,7 +144,7 @@ export default function Scanner() {
             <button
               key={loc.id}
               onClick={() => setSimulated(loc)}
-              className="flex flex-col items-center gap-2 p-5 rounded-xl border border-ifb-border bg-white hover:bg-ifb-green-light hover:border-ifb-green transition-all duration-200"
+              className="flex flex-col items-center gap-2 p-5 rounded-lg border border-ifb-border bg-white hover:bg-ifb-green-light hover:border-ifb-green transition-all duration-200 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
             >
               <span className="text-2xl">{loc.icon}</span>
               <span className="text-sm font-medium text-ifb-text">{loc.name}</span>
@@ -164,7 +157,7 @@ export default function Scanner() {
       {simulated && (
         <div className="card p-6 mt-4">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-11 h-11 rounded-xl bg-ifb-green-light flex items-center justify-center text-xl">
+            <div className="w-11 h-11 rounded-lg bg-ifb-green-light flex items-center justify-center text-xl">
               {simulated.icon}
             </div>
             <div>
@@ -185,7 +178,7 @@ export default function Scanner() {
           </div>
           <button
             onClick={() => navigate('/acessibilidade')}
-            className="btn-primary w-full justify-center"
+            className="btn-primary w-full justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
           >
             <Icon name="route" size={18} strokeWidth={2} />
             Iniciar navegação

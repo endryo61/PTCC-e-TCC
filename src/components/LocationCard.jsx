@@ -1,10 +1,6 @@
 /**
  * LocationCard.jsx — Card de local exibido na página /locais
  *
- * Mostra ícone, nome, localização (bloco/andar), categoria,
- * descrição, tempo de deslocamento, horário de funcionamento
- * e botão "Navegar" que direciona para o scanner.
- *
  * @param {object} location - Objeto de local (ver data/locations.js)
  * @author IFB NavAR Team
  */
@@ -18,7 +14,7 @@ export default function LocationCard({ location }) {
     <div className="card p-5 flex flex-col gap-3 hover:shadow-card-hover">
       {/* Cabeçalho: ícone + nome + badge de categoria */}
       <div className="flex items-start gap-3">
-        <div className="w-11 h-11 rounded-xl bg-ifb-green-light flex items-center justify-center text-xl shrink-0">
+        <div className="w-11 h-11 rounded-lg bg-ifb-green-light flex items-center justify-center text-xl shrink-0">
           {location.icon}
         </div>
         <div className="flex-1 min-w-0">
@@ -53,7 +49,7 @@ export default function LocationCard({ location }) {
       {/* Botão de navegação */}
       <button
         onClick={() => navigate('/scanner')}
-        className="flex items-center gap-1.5 text-ifb-green font-medium text-sm hover:gap-2.5 transition-all self-start group"
+        className="flex items-center gap-1.5 text-ifb-green font-medium text-sm hover:gap-2.5 transition-all self-start group min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 rounded-lg px-2 -mx-2"
       >
         Navegar
         <Icon name="arrowRight" size={16} strokeWidth={2} className="group-hover:translate-x-0.5 transition-transform" />

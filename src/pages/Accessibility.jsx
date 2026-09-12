@@ -140,7 +140,7 @@ export default function Accessibility() {
       <div className="grid grid-cols-3 gap-3 mb-6">
         {preferenceCards.map((card) => (
           <div key={card.key} className="card p-4 text-center">
-            <div className="w-10 h-10 mx-auto rounded-xl bg-ifb-green-light flex items-center justify-center text-ifb-green mb-2">
+            <div className="w-10 h-10 mx-auto rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green mb-2">
               <Icon name={card.icon} size={20} strokeWidth={1.8} />
             </div>
             <p className="text-xs font-medium text-ifb-text">{card.label}</p>
@@ -152,7 +152,7 @@ export default function Accessibility() {
       </div>
 
       {/* Banner informativo */}
-      <div className="flex items-start gap-3 p-4 rounded-xl bg-ifb-green-light border border-ifb-green/30 mb-6">
+      <div className="flex items-start gap-3 p-4 rounded-lg bg-ifb-green-light border border-ifb-green/30 mb-6">
         <span className="text-ifb-green mt-0.5">
           <Icon name="info" size={18} strokeWidth={2} />
         </span>
@@ -162,10 +162,10 @@ export default function Accessibility() {
       </div>
 
       {/* Abas */}
-      <div className="flex gap-1 mb-6 bg-gray-100/80 rounded-xl p-1">
+      <div className="flex gap-1 mb-6 bg-gray-100/80 rounded-lg p-1">
         <button
           onClick={() => setActiveTab('config')}
-          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
             activeTab === 'config' ? 'bg-white text-ifb-text shadow-soft' : 'text-ifb-text-light hover:text-ifb-text'
           }`}
         >
@@ -173,7 +173,7 @@ export default function Accessibility() {
         </button>
         <button
           onClick={() => setActiveTab('voice')}
-          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
             activeTab === 'voice' ? 'bg-white text-ifb-text shadow-soft' : 'text-ifb-text-light hover:text-ifb-text'
           }`}
         >
@@ -181,7 +181,7 @@ export default function Accessibility() {
         </button>
         <button
           onClick={() => setActiveTab('libras')}
-          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
             activeTab === 'libras' ? 'bg-white text-ifb-text shadow-soft' : 'text-ifb-text-light hover:text-ifb-text'
           }`}
         >
@@ -194,7 +194,7 @@ export default function Accessibility() {
         <div className="card p-2">
           {toggles.map((t) => (
             <div key={t.key} className="flex items-center gap-3 p-4 border-b border-ifb-border last:border-0">
-              <div className="w-10 h-10 rounded-xl bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
                 <Icon name={t.icon} size={20} strokeWidth={1.8} />
               </div>
               <div className="flex-1 min-w-0">
@@ -204,7 +204,7 @@ export default function Accessibility() {
               {/* Toggle switch */}
               <button
                 onClick={() => toggle(t.key)}
-                className={`relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0 ${
+                className={`relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
                   settings[t.key] ? 'bg-ifb-green' : 'bg-gray-300'
                 }`}
                 aria-label={t.title}
@@ -220,7 +220,7 @@ export default function Accessibility() {
 
           {/* Daltonismo — dropdown em vez de toggle */}
           <div className="flex items-center gap-3 p-4">
-            <div className="w-10 h-10 rounded-xl bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
+            <div className="w-10 h-10 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
               <Icon name="palette" size={20} strokeWidth={1.8} />
             </div>
             <div className="flex-1 min-w-0">
@@ -230,7 +230,7 @@ export default function Accessibility() {
             <select
               value={settings.colorBlindness}
               onChange={(e) => setSettings((s) => ({ ...s, colorBlindness: e.target.value }))}
-              className="px-3 py-1.5 rounded-lg border border-ifb-border bg-white text-sm text-ifb-text focus:outline-none focus:ring-2 focus:ring-ifb-green/30 focus:border-ifb-green transition-all shrink-0"
+              className="px-3 py-1.5 rounded-lg border border-ifb-border bg-white text-sm text-ifb-text focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 focus:border-ifb-green transition-all shrink-0"
             >
               <option>Nenhum</option>
               <option>Protanopia</option>
@@ -247,7 +247,7 @@ export default function Accessibility() {
           {/* Card de comando de voz */}
           <div className="card p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-11 h-11 rounded-xl bg-ifb-green-light flex items-center justify-center text-ifb-green">
+              <div className="w-11 h-11 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green">
                 <Icon name="mic" size={22} strokeWidth={1.8} />
               </div>
               <div>
@@ -257,18 +257,18 @@ export default function Accessibility() {
             </div>
             <div className="flex gap-3">
               {!listening ? (
-                <button onClick={startListening} className="btn-primary flex-1 justify-center">
+                <button onClick={startListening} className="btn-primary flex-1 justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40">
                   <Icon name="mic" size={18} strokeWidth={2} />
                   Falar destino
                 </button>
               ) : (
-                <button onClick={stopListening} className="btn-outline flex-1 justify-center animate-pulse">
+                <button onClick={stopListening} className="btn-outline flex-1 justify-center animate-pulse focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40">
                   Ouvindo... (toque para parar)
                 </button>
               )}
             </div>
             {voiceResult && (
-              <div className="mt-4 p-4 rounded-xl bg-ifb-green-light border border-ifb-green/20">
+              <div className="mt-4 p-4 rounded-lg bg-ifb-green-light border border-ifb-green/20">
                 <p className="font-medium text-ifb-text flex items-center gap-2">
                   {voiceResult.icon && <span>{voiceResult.icon}</span>}
                   {voiceResult.name}
@@ -299,7 +299,7 @@ export default function Accessibility() {
                 <button
                   key={loc.id}
                   onClick={() => speak(`${loc.name}. Tempo estimado: ${loc.time}. Localização: ${loc.location}.`)}
-                  className="flex items-center gap-2 p-3 rounded-xl border border-ifb-border hover:bg-ifb-green-light hover:border-ifb-green/30 transition-all text-left"
+                  className="flex items-center gap-2 p-3 rounded-lg border border-ifb-border hover:bg-ifb-green-light hover:border-ifb-green/30 transition-all text-left min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
                 >
                   <span className="text-lg">{loc.icon}</span>
                   <div>
@@ -317,7 +317,7 @@ export default function Accessibility() {
       {activeTab === 'libras' && (
         <div className="card p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-11 h-11 rounded-xl bg-ifb-green-light flex items-center justify-center text-ifb-green">
+            <div className="w-11 h-11 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green">
               <Icon name="signLanguage" size={22} strokeWidth={1.8} />
             </div>
             <div>
@@ -325,13 +325,13 @@ export default function Accessibility() {
               <p className="text-sm text-ifb-text-light">Tradução automática para Língua Brasileira de Sinais</p>
             </div>
           </div>
-          <div className="p-4 rounded-xl bg-ifb-green-light border border-ifb-green/20 mb-4">
+          <div className="p-4 rounded-lg bg-ifb-green-light border border-ifb-green/20 mb-4">
             <p className="text-sm text-ifb-text leading-relaxed">
               O widget do VLibras está ativo no canto direito da tela. Clique no ícone azul para abrir o tradutor de Libras e traduzir qualquer texto do app para língua de sinais.
             </p>
           </div>
           <div className="space-y-3">
-            <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
+            <div className="flex items-center gap-3 p-3 rounded-lg border border-ifb-border">
               <div className="w-9 h-9 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
                 <Icon name="signLanguage" size={18} strokeWidth={2} />
               </div>
@@ -340,7 +340,7 @@ export default function Accessibility() {
                 <p className="text-xs text-ifb-text-light">Disponível em todas as páginas do app</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
+            <div className="flex items-center gap-3 p-3 rounded-lg border border-ifb-border">
               <div className="w-9 h-9 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
                 <Icon name="book" size={18} strokeWidth={2} />
               </div>
@@ -349,7 +349,7 @@ export default function Accessibility() {
                 <p className="text-xs text-ifb-text-light">Clique no ícone azul, selecione o texto e veja a tradução em Libras</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
+            <div className="flex items-center gap-3 p-3 rounded-lg border border-ifb-border">
               <div className="w-9 h-9 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
                 <Icon name="accessibility" size={18} strokeWidth={2} />
               </div>

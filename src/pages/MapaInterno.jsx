@@ -1,14 +1,6 @@
 /**
  * MapaInterno.jsx — Página de mapa do campus
  *
- * Funcionalidades:
- * 1. Mapa visual em grid com blocos do campus (Bloco A/B/C, etc.)
- * 2. Busca por texto
- * 3. Filtro por categoria (Ensino, Adm., Serviços, Acesso, Lazer)
- * 4. Lista de 10 locais em grid de 2 colunas
- *
- * Os dados vêm de data/locations.js (mapLocations e mapCategories).
- *
  * @author IFB NavAR Team
  */
 import { useState } from 'react'
@@ -63,10 +55,10 @@ export default function MapaInterno() {
       <div className="flex items-center justify-between mb-1">
         <h1 className="text-3xl font-bold text-ifb-text">Mapa do Campus</h1>
         <div className="flex gap-2">
-          <button className="w-9 h-9 rounded-full border border-ifb-border bg-white flex items-center justify-center text-ifb-text hover:bg-gray-50 transition-colors" aria-label="Aumentar zoom">
+          <button className="w-9 h-9 rounded-full border border-ifb-border bg-white flex items-center justify-center text-ifb-text hover:bg-gray-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40" aria-label="Aumentar zoom">
             <Icon name="plus" size={16} strokeWidth={2} />
           </button>
-          <button className="w-9 h-9 rounded-full border border-ifb-border bg-white flex items-center justify-center text-ifb-text hover:bg-gray-50 transition-colors" aria-label="Diminuir zoom">
+          <button className="w-9 h-9 rounded-full border border-ifb-border bg-white flex items-center justify-center text-ifb-text hover:bg-gray-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40" aria-label="Diminuir zoom">
             <Icon name="minus" size={16} strokeWidth={2} />
           </button>
         </div>
@@ -81,7 +73,7 @@ export default function MapaInterno() {
           placeholder="Buscar local no campus..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-11 pr-4 py-3 rounded-xl border border-ifb-border bg-white text-ifb-text placeholder:text-ifb-text-light focus:outline-none focus:ring-2 focus:ring-ifb-green/30 focus:border-ifb-green transition-all"
+          className="w-full pl-11 pr-4 py-3 rounded-lg border border-ifb-border bg-white text-ifb-text placeholder:text-ifb-text-light focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 focus:border-ifb-green transition-all"
         />
       </div>
 
@@ -91,7 +83,7 @@ export default function MapaInterno() {
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 min-h-[36px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
               activeCategory === cat
                 ? 'bg-ifb-green text-white shadow-soft'
                 : 'bg-white border border-ifb-border text-ifb-text-light hover:text-ifb-text hover:border-gray-300'
@@ -147,7 +139,7 @@ export default function MapaInterno() {
         {filtered.map((loc) => (
           <div
             key={loc.id}
-            className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border bg-white hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-3 p-3 rounded-lg border border-ifb-border bg-white hover:bg-gray-50 transition-colors"
           >
             <span className="text-2xl">{loc.icon}</span>
             <div>
