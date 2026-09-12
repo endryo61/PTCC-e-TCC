@@ -92,7 +92,7 @@ export default function Home() {
       {/* ========== CTA FINAL ========== */}
       <section className="py-16 lg:py-20 bg-ifb-green text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl lg:text-3xl font-bold mb-3">Pronto para se localizar?</h2>
+          <h2 className="text-xl lg:text-2xl font-bold tracking-tight mb-3">Pronto para se localizar?</h2>
           <p className="text-white/80 mb-8 max-w-md mx-auto">
             Comece agora a navegar pelo campus IFB com acessibilidade e tecnologia.
           </p>

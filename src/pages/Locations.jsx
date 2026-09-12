@@ -7,11 +7,13 @@ import { useState } from 'react'
 import Icon from '../components/Icon.jsx'
 import BackButton from '../components/BackButton.jsx'
 import LocationCard from '../components/LocationCard.jsx'
+import NavigationModal from '../components/NavigationModal.jsx'
 import { locations, categories } from '../data/locations.js'
 
 export default function Locations() {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('Todos')
+  const [selectedLocation, setSelectedLocation] = useState(null)
 
   // Filtra locais por categoria e termo de busca
   let filtered = locations
@@ -29,7 +31,7 @@ export default function Locations() {
   return (
     <div className="py-8 px-4 max-w-5xl mx-auto">
       <BackButton />
-      <h1 className="text-3xl font-bold text-ifb-text mb-1">Locais do Campus</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-ifb-text mb-1">Locais do Campus</h1>
       <p className="text-ifb-text-light mb-6">IFB Brasília · {locations.length} locais</p>
 
       {/* Campo de busca */}
@@ -64,7 +66,7 @@ export default function Locations() {
       {/* Grid de locais */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {filtered.map((loc) => (
-          <LocationCard key={loc.id} location={loc} />
+          <LocationCard key={loc.id} location={loc} onNavigate={setSelectedLocation} />
         ))}
       </div>
 
@@ -77,6 +79,9 @@ export default function Locations() {
           <p className="text-ifb-text-light">Nenhum local encontrado para "{search}".</p>
         </div>
       )}
+
+      {/* Modal de navegação */}
+      <NavigationModal location={selectedLocation} onClose={() => setSelectedLocation(null)} />
     </div>
   )
 }

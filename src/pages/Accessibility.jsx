@@ -133,7 +133,7 @@ export default function Accessibility() {
   return (
     <div className="py-8 px-4 max-w-3xl mx-auto">
       <BackButton />
-      <h1 className="text-3xl font-bold text-ifb-text mb-1">Acessibilidade</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-ifb-text mb-1">Acessibilidade</h1>
       <p className="text-ifb-text-light mb-6">Ajuste o app às suas necessidades</p>
 
       {/* Cards de preferência rápida */}
@@ -251,7 +251,7 @@ export default function Accessibility() {
                 <Icon name="mic" size={22} strokeWidth={1.8} />
               </div>
               <div>
-                <h2 className="font-semibold text-ifb-text">Comando de Voz</h2>
+                <h2 className="text-base font-semibold tracking-tight text-ifb-text">Comando de Voz</h2>
                 <p className="text-sm text-ifb-text-light">Diga o nome do local e ouça como chegar</p>
               </div>
             </div>
@@ -289,7 +289,7 @@ export default function Accessibility() {
           <div className="card p-6">
             <div className="flex items-center gap-2 mb-2">
               <Icon name="volume" size={18} strokeWidth={2} className="text-ifb-green" />
-              <h2 className="font-semibold text-ifb-text">Guia por Voz</h2>
+              <h2 className="text-base font-semibold tracking-tight text-ifb-text">Guia por Voz</h2>
             </div>
             <p className="text-sm text-ifb-text-light mb-4">
               Toque em um local para ouvir as direções em áudio:
@@ -321,7 +321,7 @@ export default function Accessibility() {
               <Icon name="signLanguage" size={22} strokeWidth={1.8} />
             </div>
             <div>
-              <h2 className="font-semibold text-ifb-text">VLibras — Libras</h2>
+              <h2 className="text-base font-semibold tracking-tight text-ifb-text">VLibras — Libras</h2>
               <p className="text-sm text-ifb-text-light">Tradução automática para Língua Brasileira de Sinais</p>
             </div>
           </div>

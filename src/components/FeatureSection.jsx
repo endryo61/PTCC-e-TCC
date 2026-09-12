@@ -19,7 +19,7 @@ export default function FeatureSection() {
     <section className="py-16 lg:py-20 bg-ifb-gray">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-2xl lg:text-3xl font-bold text-ifb-text mb-2">
+          <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-ifb-text mb-2">
             Tudo para você se localizar
           </h2>
           <p className="text-ifb-text-light">
@@ -32,7 +32,7 @@ export default function FeatureSection() {
               <div className="w-12 h-12 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green mb-4">
                 <Icon name={f.icon} size={24} strokeWidth={1.8} />
               </div>
-              <h3 className="font-semibold text-ifb-text mb-1.5 text-[15px]">{f.title}</h3>
+              <h3 className="text-base font-semibold tracking-tight text-ifb-text mb-1.5">{f.title}</h3>
               <p className="text-sm text-ifb-text-light leading-relaxed">{f.desc}</p>
             </div>
           ))}

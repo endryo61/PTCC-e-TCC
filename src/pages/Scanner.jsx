@@ -8,6 +8,7 @@ import { Html5Qrcode } from 'html5-qrcode'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
 import BackButton from '../components/BackButton.jsx'
+import NavigationModal from '../components/NavigationModal.jsx'
 import { locations } from '../data/locations.js'
 
 export default function Scanner() {
@@ -16,6 +17,7 @@ export default function Scanner() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
   const [simulated, setSimulated] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState(null)
   const scannerRef = useRef(null)
   const containerId = 'qr-reader'
 
@@ -65,7 +67,7 @@ export default function Scanner() {
   return (
     <div className="py-8 px-4 max-w-3xl mx-auto">
       <BackButton />
-      <h1 className="text-3xl font-bold text-ifb-text mb-1">Scanner QR Code</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-ifb-text mb-1">Scanner QR Code</h1>
       <p className="text-ifb-text-light mb-6">Aponte para o código no campus</p>
 
       {/* Card do scanner */}
@@ -111,7 +113,7 @@ export default function Scanner() {
               <Icon name="check" size={22} strokeWidth={2} />
             </div>
             <div>
-              <h2 className="font-semibold text-ifb-text">QR Code detectado!</h2>
+              <h2 className="text-base font-semibold text-ifb-text tracking-tight">QR Code detectado!</h2>
               <p className="text-sm text-ifb-text-light">Conteúdo: {result}</p>
             </div>
           </div>
@@ -120,7 +122,7 @@ export default function Scanner() {
             {simulateLocations.map((loc) => (
               <button
                 key={loc.id}
-                onClick={() => navigate('/locais')}
+                onClick={() => setSelectedLocation(loc)}
                 className="flex items-center gap-2 p-3 rounded-lg border border-ifb-border hover:bg-gray-50 transition-colors text-left min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
               >
                 <span className="text-xl">{loc.icon}</span>
@@ -161,7 +163,7 @@ export default function Scanner() {
               {simulated.icon}
             </div>
             <div>
-              <h2 className="font-semibold text-ifb-text">{simulated.name}</h2>
+              <h2 className="text-base font-semibold text-ifb-text tracking-tight">{simulated.name}</h2>
               <p className="text-sm text-ifb-text-light">{simulated.location}</p>
             </div>
           </div>
@@ -177,7 +179,7 @@ export default function Scanner() {
             </span>
           </div>
           <button
-            onClick={() => navigate('/acessibilidade')}
+            onClick={() => setSelectedLocation(simulated)}
             className="btn-primary w-full justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
           >
             <Icon name="route" size={18} strokeWidth={2} />
@@ -185,6 +187,9 @@ export default function Scanner() {
           </button>
         </div>
       )}
+
+      {/* Modal de navegação */}
+      <NavigationModal location={selectedLocation} onClose={() => setSelectedLocation(null)} />
     </div>
   )
 }

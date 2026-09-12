@@ -6,11 +6,13 @@
 import { useState } from 'react'
 import Icon from '../components/Icon.jsx'
 import BackButton from '../components/BackButton.jsx'
+import NavigationModal from '../components/NavigationModal.jsx'
 import { mapLocations, mapCategories } from '../data/locations.js'
 
 export default function MapaInterno() {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('Todos')
+  const [selectedLocation, setSelectedLocation] = useState(null)
 
   // Filtra locais por categoria e busca
   let filtered = mapLocations
@@ -53,7 +55,7 @@ export default function MapaInterno() {
 
       {/* Título + controles de zoom */}
       <div className="flex items-center justify-between mb-1">
-        <h1 className="text-3xl font-bold text-ifb-text">Mapa do Campus</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-ifb-text">Mapa do Campus</h1>
         <div className="flex gap-2">
           <button className="w-9 h-9 rounded-full border border-ifb-border bg-white flex items-center justify-center text-ifb-text hover:bg-gray-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40" aria-label="Aumentar zoom">
             <Icon name="plus" size={16} strokeWidth={2} />
@@ -95,10 +97,10 @@ export default function MapaInterno() {
       </div>
 
       {/* Mapa visual do campus */}
-      <div className="card p-6 mb-6 overflow-hidden">
-        <div className="relative w-full" style={{ minHeight: '400px' }}>
+      <div className="card p-4 sm:p-6 mb-6 overflow-hidden">
+        <div className="relative w-full" style={{ minHeight: '360px' }}>
           {/* Grade de fundo */}
-          <div className="absolute inset-0 grid grid-cols-12 gap-0" style={{ minHeight: '400px' }}>
+          <div className="absolute inset-0 grid grid-cols-12 gap-0" style={{ minHeight: '360px' }}>
             {Array.from({ length: 96 }).map((_, i) => (
               <div key={i} className="border border-gray-50" />
             ))}
@@ -111,7 +113,7 @@ export default function MapaInterno() {
                 {buildingBlocks.slice(start, start + 3).map((block) => (
                   <div
                     key={block.label}
-                    className={`border-2 rounded-lg px-4 py-3 text-center flex-1 max-w-[140px] ${colorClasses[block.color]}`}
+                    className={`border-2 rounded-lg px-3 py-3 text-center flex-1 max-w-[130px] transition-all duration-200 hover:shadow-soft hover:scale-[1.03] cursor-pointer ${colorClasses[block.color]}`}
                   >
                     <p className="text-xs font-bold">{block.label}</p>
                     {block.sub && <p className="text-[10px] opacity-70 mt-0.5">{block.sub}</p>}
@@ -133,22 +135,27 @@ export default function MapaInterno() {
 
       {/* Lista de locais */}
       <p className="text-xs text-ifb-text-light uppercase tracking-wider font-medium mb-4">
-        {mapLocations.length} locais
+        {filtered.length} locais · toque para navegar
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {filtered.map((loc) => (
-          <div
+          <button
             key={loc.id}
-            className="flex items-center gap-3 p-3 rounded-lg border border-ifb-border bg-white hover:bg-gray-50 transition-colors"
+            onClick={() => setSelectedLocation(loc)}
+            className="flex items-center gap-3 p-3 rounded-lg border border-ifb-border bg-white hover:bg-gray-50 hover:border-gray-300 transition-all text-left min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
           >
             <span className="text-2xl">{loc.icon}</span>
-            <div>
-              <p className="font-medium text-sm text-ifb-text">{loc.name}</p>
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-sm text-ifb-text">{loc.name}</p>
               <p className="text-xs text-ifb-text-light">{loc.sub}</p>
             </div>
-          </div>
+            <Icon name="chevronRight" size={16} strokeWidth={2} className="text-ifb-text-light shrink-0" />
+          </button>
         ))}
       </div>
+
+      {/* Modal de navegação */}
+      <NavigationModal location={selectedLocation} onClose={() => setSelectedLocation(null)} />
     </div>
   )
 }

@@ -2,13 +2,22 @@
  * LocationCard.jsx — Card de local exibido na página /locais
  *
  * @param {object} location - Objeto de local (ver data/locations.js)
+ * @param {function} onNavigate - Callback chamado ao clicar em Navegar
  * @author IFB NavAR Team
  */
 import { useNavigate } from 'react-router-dom'
 import Icon from './Icon.jsx'
 
-export default function LocationCard({ location }) {
+export default function LocationCard({ location, onNavigate }) {
   const navigate = useNavigate()
+
+  const handleNavigate = () => {
+    if (onNavigate) {
+      onNavigate(location)
+    } else {
+      navigate('/scanner')
+    }
+  }
 
   return (
     <div className="card p-5 flex flex-col gap-3 hover:shadow-card-hover">
@@ -18,7 +27,7 @@ export default function LocationCard({ location }) {
           {location.icon}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-ifb-text text-[15px]">{location.name}</h3>
+          <h3 className="text-base font-semibold text-ifb-text tracking-tight">{location.name}</h3>
           <p className="text-xs text-ifb-text-light mt-0.5">{location.location}</p>
         </div>
         <span className="text-xs font-medium bg-ifb-green-light text-ifb-green px-2.5 py-1 rounded-full whitespace-nowrap shrink-0">
@@ -48,7 +57,7 @@ export default function LocationCard({ location }) {
 
       {/* Botão de navegação */}
       <button
-        onClick={() => navigate('/scanner')}
+        onClick={handleNavigate}
         className="flex items-center gap-1.5 text-ifb-green font-medium text-sm hover:gap-2.5 transition-all self-start group min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 rounded-lg px-2 -mx-2"
       >
         Navegar
