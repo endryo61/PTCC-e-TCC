@@ -8,13 +8,17 @@
  *
  * @author IFB NavAR Team
  */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from './Icon.jsx'
+import { campusOrigin } from '../data/locations.js'
+import { fetchRoute, formatDuration, formatDistance } from '../services/osrm.js'
 
 export default function NavigationModal({ location, onClose }) {
   const navigate = useNavigate()
   const [mode, setMode] = useState('ar')
+  const [routeData, setRouteData] = useState(null)
+  const [loadingRoute, setLoadingRoute] = useState(false)
   const [voiceGuide, setVoiceGuide] = useState(() => {
     // Lê a configuração de voz salva na acessibilidade
     const a11y = localStorage.getItem('ifb-accessibility')
@@ -24,12 +28,33 @@ export default function NavigationModal({ location, onClose }) {
     return false
   })
 
+  // Busca rota real no OSRM quando um local é selecionado
+  useEffect(() => {
+    if (!location?.coords) return
+    setLoadingRoute(true)
+    setRouteData(null)
+    fetchRoute(campusOrigin, location.coords)
+      .then((data) => {
+        setRouteData(data)
+        setLoadingRoute(false)
+      })
+      .catch(() => setLoadingRoute(false))
+  }, [location])
+
   if (!location) return null
 
   const subtitle = location.location || location.sub || ''
+  const realTime = routeData ? formatDuration(routeData.duration) : location.time
+  const realDistance = routeData ? formatDistance(routeData.distance) : location.distance
 
   const handleStart = () => {
-    const prefs = { mode, voiceGuide, destination: location.id, destinationName: location.name }
+    const prefs = {
+      mode,
+      voiceGuide,
+      destination: location.id,
+      destinationName: location.name,
+      routeData, // dados reais do OSRM para a página de navegação
+    }
     localStorage.setItem('ifb-navigation', JSON.stringify(prefs))
     navigate('/navegacao')
     onClose()
@@ -55,17 +80,22 @@ export default function NavigationModal({ location, onClose }) {
           <div className="flex-1 min-w-0">
             <h2 className="text-lg font-bold text-ifb-text tracking-tight">{location.name}</h2>
             <div className="flex items-center gap-3 text-xs text-ifb-text-light mt-0.5">
-              {location.time && (
-                <span className="flex items-center gap-1 font-semibold text-ifb-green">
-                  <Icon name="clock" size={12} strokeWidth={2} />
-                  {location.time}
-                </span>
-              )}
-              {location.distance && (
-                <span className="flex items-center gap-1">
+              {loadingRoute ? (
+                <span className="flex items-center gap-1 text-ifb-text-light animate-pulse">
                   <Icon name="route" size={12} strokeWidth={2} />
-                  {location.distance}
+                  Calculando rota...
                 </span>
+              ) : (
+                <>
+                  <span className="flex items-center gap-1 font-semibold text-ifb-green">
+                    <Icon name="clock" size={12} strokeWidth={2} />
+                    {realTime}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Icon name="route" size={12} strokeWidth={2} />
+                    {realDistance}
+                  </span>
+                </>
               )}
               {subtitle && <span className="truncate">{subtitle}</span>}
             </div>

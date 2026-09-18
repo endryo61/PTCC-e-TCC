@@ -1,18 +1,25 @@
 /**
  * MapaInterno.jsx — Página de mapa do campus
  *
+ * Mapa visual interativo com blocos posicionados espacialmente,
+ * caminhos de circulação, zoom funcional e integração com a lista
+ * de locais para navegação.
+ *
  * @author IFB NavAR Team
  */
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Icon from '../components/Icon.jsx'
 import BackButton from '../components/BackButton.jsx'
 import NavigationModal from '../components/NavigationModal.jsx'
+import CampusMap from '../components/CampusMap.jsx'
 import { mapLocations, mapCategories } from '../data/locations.js'
 
 export default function MapaInterno() {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('Todos')
-  const [selectedLocation, setSelectedLocation] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState(null) // para o modal
+  const [mapSelectedId, setMapSelectedId] = useState(null) // highlight no mapa
+  const listRefs = useRef({})
 
   // Filtra locais por categoria e busca
   let filtered = mapLocations
@@ -23,49 +30,44 @@ export default function MapaInterno() {
     filtered = filtered.filter((l) => l.name.toLowerCase().includes(search.toLowerCase()))
   }
 
-  // Configuração dos blocos no mapa visual
-  const buildingBlocks = [
-    { label: 'BL.A', sub: 'Administrativo', color: 'blue' },
-    { label: 'BL.B', sub: 'Salas de Aula', color: 'purple' },
-    { label: 'BL.C', sub: 'Laboratórios', color: 'pink' },
-    { label: 'Coord.', sub: 'Pedagógica', color: 'orange' },
-    { label: '📖 Biblioteca', sub: '', color: 'green' },
-    { label: '🍽️ Cantina', sub: '', color: 'teal' },
-    { label: '🅿️ Estac.', sub: '', color: 'gray' },
-    { label: '🚪 ENTRADA', sub: '', color: 'primary' },
-    { label: '⚽ Quadra', sub: '', color: 'yellow' },
-  ]
-
-  // Mapeia cores para classes Tailwind
-  const colorClasses = {
-    blue: 'bg-blue-50 border-blue-200 text-blue-700',
-    purple: 'bg-purple-50 border-purple-200 text-purple-700',
-    pink: 'bg-pink-50 border-pink-200 text-pink-700',
-    orange: 'bg-orange-50 border-orange-200 text-orange-700',
-    green: 'bg-green-50 border-green-200 text-green-700',
-    teal: 'bg-teal-50 border-teal-200 text-teal-700',
-    gray: 'bg-gray-50 border-gray-200 text-gray-600',
-    primary: 'bg-ifb-green border-ifb-green-dark text-white',
-    yellow: 'bg-yellow-50 border-yellow-200 text-yellow-700',
+  // Quando um bloco do mapa é clicado, destaca na lista e rola até ele
+  const handleMapSelect = (loc) => {
+    setMapSelectedId(loc.id)
+    // Garante que o filtro não esconde o local clicado
+    if (activeCategory !== 'Todos' && loc.category !== activeCategory) {
+      setActiveCategory('Todos')
+      setSearch('')
+    }
+    // Rola a lista até o item (após re-render)
+    setTimeout(() => {
+      listRefs.current[loc.id]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }, 50)
   }
+
+  // Quando um item da lista é clicado, abre o modal de navegação
+  const handleListClick = (loc) => {
+    setMapSelectedId(loc.id)
+    setSelectedLocation(loc)
+  }
+
+  // Limpa o destaque do mapa quando o modal fecha
+  useEffect(() => {
+    if (!selectedLocation) {
+      // Mantém o destaque por 1s após fechar para feedback visual
+      const t = setTimeout(() => setMapSelectedId(null), 1000)
+      return () => clearTimeout(t)
+    }
+  }, [selectedLocation])
 
   return (
     <div className="py-8 px-4 max-w-5xl mx-auto">
       <BackButton />
 
-      {/* Título + controles de zoom */}
-      <div className="flex items-center justify-between mb-1">
+      {/* Título */}
+      <div className="mb-1">
         <h1 className="text-2xl font-bold tracking-tight text-ifb-text">Mapa do Campus</h1>
-        <div className="flex gap-2">
-          <button className="w-9 h-9 rounded-full border border-ifb-border bg-white flex items-center justify-center text-ifb-text hover:bg-gray-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40" aria-label="Aumentar zoom">
-            <Icon name="plus" size={16} strokeWidth={2} />
-          </button>
-          <button className="w-9 h-9 rounded-full border border-ifb-border bg-white flex items-center justify-center text-ifb-text hover:bg-gray-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40" aria-label="Diminuir zoom">
-            <Icon name="minus" size={16} strokeWidth={2} />
-          </button>
-        </div>
       </div>
-      <p className="text-ifb-text-light mb-6">IFB Brasília · {mapLocations.length} locais</p>
+      <p className="text-ifb-text-light mb-6">IFB Brasília · {mapLocations.length} locais · toque em um bloco para navegar</p>
 
       {/* Busca */}
       <div className="relative mb-4">
@@ -96,58 +98,40 @@ export default function MapaInterno() {
         ))}
       </div>
 
-      {/* Mapa visual do campus */}
-      <div className="card p-4 sm:p-6 mb-6 overflow-hidden">
-        <div className="relative w-full" style={{ minHeight: '360px' }}>
-          {/* Grade de fundo */}
-          <div className="absolute inset-0 grid grid-cols-12 gap-0" style={{ minHeight: '360px' }}>
-            {Array.from({ length: 96 }).map((_, i) => (
-              <div key={i} className="border border-gray-50" />
-            ))}
-          </div>
-
-          {/* Blocos do campus */}
-          <div className="absolute inset-0 p-4 flex flex-col gap-3 justify-center">
-            {[0, 3, 6].map((start) => (
-              <div key={start} className="flex gap-3 justify-center">
-                {buildingBlocks.slice(start, start + 3).map((block) => (
-                  <div
-                    key={block.label}
-                    className={`border-2 rounded-lg px-3 py-3 text-center flex-1 max-w-[130px] transition-all duration-200 hover:shadow-soft hover:scale-[1.03] cursor-pointer ${colorClasses[block.color]}`}
-                  >
-                    <p className="text-xs font-bold">{block.label}</p>
-                    {block.sub && <p className="text-[10px] opacity-70 mt-0.5">{block.sub}</p>}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-
-          {/* Controles do mapa */}
-          <div className="absolute top-2 left-2 w-8 h-8 bg-white rounded-lg border border-ifb-border flex items-center justify-center text-xs font-bold text-ifb-text shadow-soft">
-            N↑
-          </div>
-          <div className="absolute bottom-2 right-2 text-[10px] text-ifb-text-light bg-white/80 px-2 py-0.5 rounded">
-            Escala 1:500
-          </div>
-        </div>
-      </div>
+      {/* Mapa visual interativo */}
+      <CampusMap
+        selectedId={mapSelectedId}
+        onSelect={handleMapSelect}
+        highlightCategory={activeCategory}
+      />
 
       {/* Lista de locais */}
-      <p className="text-xs text-ifb-text-light uppercase tracking-wider font-medium mb-4">
-        {filtered.length} locais · toque para navegar
-      </p>
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-xs text-ifb-text-light uppercase tracking-wider font-medium">
+          {filtered.length} {filtered.length === 1 ? 'local' : 'locais'}
+        </p>
+        <p className="text-xs text-ifb-text-light">Toque para navegar</p>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {filtered.map((loc) => (
           <button
             key={loc.id}
-            onClick={() => setSelectedLocation(loc)}
-            className="flex items-center gap-3 p-3 rounded-lg border border-ifb-border bg-white hover:bg-gray-50 hover:border-gray-300 transition-all text-left min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
+            ref={(el) => (listRefs.current[loc.id] = el)}
+            onClick={() => handleListClick(loc)}
+            className={`flex items-center gap-3 p-3 rounded-lg border bg-white transition-all text-left min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
+              mapSelectedId === loc.id
+                ? 'border-ifb-green bg-ifb-green-light ring-1 ring-ifb-green/30'
+                : 'border-ifb-border hover:bg-gray-50 hover:border-gray-300'
+            }`}
           >
-            <span className="text-2xl">{loc.icon}</span>
+            <span className="text-2xl shrink-0">{loc.icon}</span>
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-sm text-ifb-text">{loc.name}</p>
-              <p className="text-xs text-ifb-text-light">{loc.sub}</p>
+              <p className="text-xs text-ifb-text-light">
+                {loc.time && <span className="font-medium text-ifb-green">{loc.time}</span>}
+                {loc.distance && <span> · {loc.distance}</span>}
+                {loc.sub && <span> · {loc.sub}</span>}
+              </p>
             </div>
             <Icon name="chevronRight" size={16} strokeWidth={2} className="text-ifb-text-light shrink-0" />
           </button>

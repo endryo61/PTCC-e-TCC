@@ -4,6 +4,9 @@
  * @author IFB NavAR Team
  */
 
+// Coordenadas reais do IFB Campus Asa Norte (SGAN 610/611)
+export const campusOrigin = { lat: -15.7526, lon: -47.8787 } // Entrada principal
+
 // ============================================
 // LOCAIS — Página /locais (8 locais)
 // ============================================
@@ -19,6 +22,7 @@ export const locations = [
     location: 'Bloco A · Térreo',
     description: 'Acervo bibliográfico com livros técnicos, científicos e literários. Computadores para pesquisa e espaço de estudo individual e em grupo.',
     accessible: true,
+    coords: { lat: -15.7535, lon: -47.8785 },
   },
   {
     id: 'registro',
@@ -31,6 +35,7 @@ export const locations = [
     location: 'Bloco A · 1º Andar',
     description: 'Serviços de matrícula, histórico escolar, declarações, diplomas e outros documentos acadêmicos. Atendimento presencial e online.',
     accessible: true,
+    coords: { lat: -15.7536, lon: -47.8786 },
   },
   {
     id: 'lab-info',
@@ -43,6 +48,7 @@ export const locations = [
     location: 'Bloco B · 2º Andar',
     description: 'Laboratório equipado com computadores de alta performance para aulas práticas de programação, redes e design.',
     accessible: true,
+    coords: { lat: -15.7545, lon: -47.8790 },
   },
   {
     id: 'auditorio',
@@ -55,6 +61,7 @@ export const locations = [
     location: 'Bloco C · Térreo',
     description: 'Espaço para eventos, palestras, formaturas e reuniões. Capacidade para 200 pessoas com sistema de som e projeção.',
     accessible: true,
+    coords: { lat: -15.7540, lon: -47.8778 },
   },
   {
     id: 'coordenacao',
@@ -67,6 +74,7 @@ export const locations = [
     location: 'Bloco Administrativo · 1º Andar',
     description: 'Coordenação dos cursos técnicos e superiores. Atendimento sobre questões pedagógicas, aproveitamento de estudos e matrículas.',
     accessible: true,
+    coords: { lat: -15.7548, lon: -47.8785 },
   },
   {
     id: 'ginasio',
@@ -79,6 +87,7 @@ export const locations = [
     location: 'Área Esportiva · Térreo',
     description: 'Ginásio poliesportivo para prática de basquete, vôlei, futsal e outras modalidades. Quadras e vestiários disponíveis.',
     accessible: true,
+    coords: { lat: -15.7550, lon: -47.8795 },
   },
   {
     id: 'secretaria',
@@ -91,6 +100,7 @@ export const locations = [
     location: 'Bloco Administrativo · Térreo',
     description: 'Atendimento geral, informações sobre o campus, protocolo de documentos e serviços administrativos para alunos e servidores.',
     accessible: true,
+    coords: { lat: -15.7548, lon: -47.8786 },
   },
   {
     id: 'cantina',
@@ -103,6 +113,7 @@ export const locations = [
     location: 'Bloco Serviços · Térreo',
     description: 'Refeitório com refeições variadas, lanches e bebidas. Atende alunos, servidores e visitantes com preços acessíveis.',
     accessible: true,
+    coords: { lat: -15.7538, lon: -47.8790 },
   },
 ]
 
@@ -112,16 +123,16 @@ export const categories = ['Todos', 'Acadêmico', 'Administrativo', 'Serviços',
 // MAPA — Página /mapa-interno (10 locais)
 // ============================================
 export const mapLocations = [
-  { id: 'entrada', name: 'Entrada Principal', icon: '🚪', sub: 'Portão', time: null, distance: null, category: 'Acesso' },
-  { id: 'recepcao', name: 'Recepção / Guarita', icon: '🏠', sub: '1 min', time: '1 min', distance: '50 m', category: 'Acesso' },
-  { id: 'bloco-a', name: 'Bloco A', icon: '🏢', sub: '3 min', time: '3 min', distance: '150 m', category: 'Adm.' },
-  { id: 'bloco-b', name: 'Bloco B', icon: '📚', sub: '4 min', time: '4 min', distance: '200 m', category: 'Ensino' },
-  { id: 'bloco-c', name: 'Bloco C', icon: '🔬', sub: '5 min', time: '5 min', distance: '250 m', category: 'Ensino' },
-  { id: 'biblioteca-map', name: 'Biblioteca', icon: '📖', sub: '4 min', time: '4 min', distance: '180 m', category: 'Ensino' },
-  { id: 'cantina-map', name: 'Cantina / Restaurante', icon: '🍽️', sub: '5 min', time: '5 min', distance: '220 m', category: 'Serviços' },
-  { id: 'quadra-map', name: 'Quadra Esportiva', icon: '⚽', sub: '6 min', time: '6 min', distance: '300 m', category: 'Lazer' },
-  { id: 'estacionamento', name: 'Estacionamento', icon: '🅿️', sub: '2 min', time: '2 min', distance: '100 m', category: 'Acesso' },
-  { id: 'coord-pedagogica', name: 'Coordenação Pedagógica', icon: '🎓', sub: '4 min', time: '4 min', distance: '180 m', category: 'Ensino' },
+  { id: 'entrada', name: 'Entrada Principal', icon: '🚪', sub: 'Portão', time: null, distance: null, category: 'Acesso', coords: { lat: -15.7526, lon: -47.8787 } },
+  { id: 'recepcao', name: 'Recepção / Guarita', icon: '🏠', sub: '1 min', time: '1 min', distance: '50 m', category: 'Acesso', coords: { lat: -15.7530, lon: -47.8787 } },
+  { id: 'bloco-a', name: 'Bloco A', icon: '🏢', sub: '3 min', time: '3 min', distance: '150 m', category: 'Adm.', coords: { lat: -15.7535, lon: -47.8785 } },
+  { id: 'bloco-b', name: 'Bloco B', icon: '📚', sub: '4 min', time: '4 min', distance: '200 m', category: 'Ensino', coords: { lat: -15.7545, lon: -47.8790 } },
+  { id: 'bloco-c', name: 'Bloco C', icon: '🔬', sub: '5 min', time: '5 min', distance: '250 m', category: 'Ensino', coords: { lat: -15.7540, lon: -47.8778 } },
+  { id: 'biblioteca-map', name: 'Biblioteca', icon: '📖', sub: '4 min', time: '4 min', distance: '180 m', category: 'Ensino', coords: { lat: -15.7535, lon: -47.8782 } },
+  { id: 'cantina-map', name: 'Cantina / Restaurante', icon: '🍽️', sub: '5 min', time: '5 min', distance: '220 m', category: 'Serviços', coords: { lat: -15.7538, lon: -47.8790 } },
+  { id: 'quadra-map', name: 'Quadra Esportiva', icon: '⚽', sub: '6 min', time: '6 min', distance: '300 m', category: 'Lazer', coords: { lat: -15.7550, lon: -47.8795 } },
+  { id: 'estacionamento', name: 'Estacionamento', icon: '🅿️', sub: '2 min', time: '2 min', distance: '100 m', category: 'Acesso', coords: { lat: -15.7530, lon: -47.8795 } },
+  { id: 'coord-pedagogica', name: 'Coordenação Pedagógica', icon: '🎓', sub: '4 min', time: '4 min', distance: '180 m', category: 'Ensino', coords: { lat: -15.7548, lon: -47.8785 } },
 ]
 
 export const mapCategories = ['Todos', 'Ensino', 'Adm.', 'Serviços', 'Acesso', 'Lazer']

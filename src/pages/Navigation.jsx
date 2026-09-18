@@ -14,9 +14,18 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
 import { locations, mapLocations } from '../data/locations.js'
+import { formatDuration, formatDistance } from '../services/osrm.js'
 
-// Gera passos da rota com base na localização do destino
-function generateSteps(loc) {
+// Gera passos da rota: usa dados reais do OSRM se disponíveis, senão fallback
+function generateSteps(loc, routeData) {
+  if (routeData?.steps?.length) {
+    return routeData.steps.map((s) => ({
+      instruction: s.instruction,
+      distance: formatDistance(s.distance),
+    }))
+  }
+
+  // Fallback — passos genéricos baseados na localização
   const parts = (loc.location || loc.sub || '').split('·').map((s) => s.trim())
   const block = parts[0] || 'o bloco'
   const floor = parts[1] || 'o térreo'
@@ -60,8 +69,11 @@ export default function Navigation() {
     }
   }, [])
 
-  // Gera os passos da rota
-  const steps = destination ? generateSteps(destination) : []
+  // Gera os passos da rota — usa dados reais do OSRM se disponíveis
+  const routeData = prefs?.routeData
+  const realTime = routeData ? formatDuration(routeData.duration) : null
+  const realDistance = routeData ? formatDistance(routeData.distance) : null
+  const steps = destination ? generateSteps(destination, routeData) : []
 
   // Síntese de voz — lê as instruções
   const speak = (text) => {
@@ -79,7 +91,7 @@ export default function Navigation() {
   useEffect(() => {
     if (destination && prefs?.voiceGuide && !spokenRef.current) {
       spokenRef.current = true
-      const intro = `Navegação iniciada para ${destination.name}. Tempo estimado: ${destination.time || ''}. Distância: ${destination.distance || ''}. ${steps[0]?.instruction || ''}`
+      const intro = `Navegação iniciada para ${destination.name}. Tempo estimado: ${realTime || destination.time || ''}. Distância: ${realDistance || destination.distance || ''}. ${steps[0]?.instruction || ''}`
       speak(intro)
     }
   }, [destination, prefs])
@@ -87,7 +99,7 @@ export default function Navigation() {
   // Lê a rota completa em voz alta
   const speakFullRoute = () => {
     if (!destination || !steps.length) return
-    const text = `Rota para ${destination.name}. Tempo estimado: ${destination.time || ''}. Distância: ${destination.distance || ''}. ` +
+    const text = `Rota para ${destination.name}. Tempo estimado: ${realTime || destination.time || ''}. Distância: ${realDistance || destination.distance || ''}. ` +
       steps.map((s, i) => `Passo ${i + 1}: ${s.instruction}.`).join(' ')
     speak(text)
   }
@@ -142,8 +154,8 @@ export default function Navigation() {
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-ifb-text truncate">{destination.name}</p>
           <p className="text-xs text-ifb-text-light">
-            {destination.time && `${destination.time} · `}
-            {destination.distance && `${destination.distance} · `}
+            {(realTime || destination.time) && `${realTime || destination.time} · `}
+            {(realDistance || destination.distance) && `${realDistance || destination.distance} · `}
             {destination.location || destination.sub || ''}
           </p>
         </div>
@@ -221,7 +233,7 @@ export default function Navigation() {
               <div className="flex items-center justify-between text-sm">
                 <span className="flex items-center gap-1.5 font-semibold text-ifb-green">
                   <Icon name="clock" size={14} strokeWidth={2} />
-                  {destination.time || '—'}
+                  {realTime || destination.time || '—'}
                 </span>
                 <span className="flex items-center gap-1.5 text-ifb-text-light">
                   <Icon name="route" size={14} strokeWidth={2} />
