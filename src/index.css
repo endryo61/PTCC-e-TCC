@@ -30,10 +30,22 @@ body.large-text {
   font-size: 1.2em;
 }
 body.large-text .text-xs {
-  font-size: 0.875rem;
+  font-size: 1rem !important;
 }
 body.large-text .text-sm {
-  font-size: 1rem;
+  font-size: 1.125rem !important;
+}
+body.large-text .text-base {
+  font-size: 1.25rem !important;
+}
+body.large-text .text-lg {
+  font-size: 1.375rem !important;
+}
+body.large-text .text-xl {
+  font-size: 1.5rem !important;
+}
+body.large-text .text-2xl {
+  font-size: 1.75rem !important;
 }
 body.reduce-animations * {
   animation: none !important;

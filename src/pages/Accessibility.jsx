@@ -168,11 +168,11 @@ export default function Accessibility() {
     { key: 'screenReader', icon: 'headphones', title: 'Leitor de Tela', desc: 'Otimiza a navegação para leitores de tela (VoiceOver, TalkBack)' },
   ]
 
-  // Cards de preferência rápida (topo da página)
+  // Cards de preferência rápida (topo da página) — clicáveis
   const preferenceCards = [
     { key: 'highContrast', icon: 'contrast', label: 'Alto Contraste' },
     { key: 'screenReader', icon: 'headphones', label: 'Leitor de Tela' },
-    { key: 'vlibras', icon: 'signLanguage', label: 'VLibras', status: 'Libras' },
+    { key: 'reduceAnimations', icon: 'sparkles', label: 'Reduzir Animações' },
   ]
 
   return (
@@ -181,19 +181,33 @@ export default function Accessibility() {
       <h1 className="text-2xl font-bold tracking-tight text-ifb-text mb-1">Acessibilidade</h1>
       <p className="text-ifb-text-light mb-6">Ajuste o app às suas necessidades</p>
 
-      {/* Cards de preferência rápida */}
+      {/* Cards de preferência rápida — clicáveis */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        {preferenceCards.map((card) => (
-          <div key={card.key} className="card p-4 text-center">
-            <div className="w-10 h-10 mx-auto rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green mb-2">
-              <Icon name={card.icon} size={20} strokeWidth={1.8} />
-            </div>
-            <p className="text-xs font-medium text-ifb-text">{card.label}</p>
-            <p className="text-[10px] text-ifb-green bg-ifb-green-light inline-block px-2 py-0.5 rounded-full mt-1">
-              {card.status || (settings[card.key] ? 'Ativado' : 'Desativado')}
-            </p>
-          </div>
-        ))}
+        {preferenceCards.map((card) => {
+          const active = settings[card.key]
+          return (
+            <button
+              key={card.key}
+              onClick={() => toggle(card.key)}
+              className={`card p-4 text-center transition-all duration-200 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
+                active ? 'border-ifb-green bg-ifb-green-light' : 'hover:border-ifb-green/30'
+              }`}
+              aria-pressed={active}
+            >
+              <div className={`w-10 h-10 mx-auto rounded-lg flex items-center justify-center mb-2 ${
+                active ? 'bg-ifb-green text-white' : 'bg-ifb-green-light text-ifb-green'
+              }`}>
+                <Icon name={card.icon} size={20} strokeWidth={1.8} />
+              </div>
+              <p className="text-xs font-medium text-ifb-text">{card.label}</p>
+              <p className={`text-[10px] inline-block px-2 py-0.5 rounded-full mt-1 ${
+                active ? 'bg-ifb-green text-white' : 'text-ifb-green bg-ifb-green-light'
+              }`}>
+                {active ? 'Ativado' : 'Desativado'}
+              </p>
+            </button>
+          )
+        })}
       </div>
 
       {/* Banner informativo */}
