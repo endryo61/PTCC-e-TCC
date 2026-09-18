@@ -48,6 +48,12 @@ export default function Navigation() {
     const stored = localStorage.getItem('ifb-navigation')
     if (stored) {
       const p = JSON.parse(stored)
+      // Sincroniza com configurações de acessibilidade
+      const a11y = localStorage.getItem('ifb-accessibility')
+      if (a11y) {
+        const a = JSON.parse(a11y)
+        if (a.voiceGuide) p.voiceGuide = true
+      }
       setPrefs(p)
       const dest = findLocation(p.destination)
       if (dest) setDestination(dest)
@@ -77,6 +83,14 @@ export default function Navigation() {
       speak(intro)
     }
   }, [destination, prefs])
+
+  // Lê a rota completa em voz alta
+  const speakFullRoute = () => {
+    if (!destination || !steps.length) return
+    const text = `Rota para ${destination.name}. Tempo estimado: ${destination.time || ''}. Distância: ${destination.distance || ''}. ` +
+      steps.map((s, i) => `Passo ${i + 1}: ${s.instruction}.`).join(' ')
+    speak(text)
+  }
 
   // Fala o passo atual
   const speakStep = (index) => {
@@ -139,17 +153,15 @@ export default function Navigation() {
             AR
           </span>
         )}
-        {isVoiceEnabled && (
-          <button
-            onClick={() => speakStep(currentStep)}
-            className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 min-w-[44px] min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
-              isSpeaking ? 'bg-ifb-green text-white animate-pulse' : 'bg-ifb-green-light text-ifb-green'
-            }`}
-            aria-label="Ouvir instrução"
-          >
-            <Icon name="volume" size={18} strokeWidth={2} />
-          </button>
-        )}
+        <button
+          onClick={() => speakStep(currentStep)}
+          className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 min-w-[44px] min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40 ${
+            isSpeaking ? 'bg-ifb-green text-white animate-pulse' : 'bg-ifb-green-light text-ifb-green'
+          }`}
+          aria-label="Ouvir instrução"
+        >
+          <Icon name="volume" size={18} strokeWidth={2} />
+        </button>
       </div>
 
       {/* Área de visualização da navegação */}
@@ -223,9 +235,18 @@ export default function Navigation() {
 
       {/* Passo a passo */}
       <div className="bg-white border-t border-ifb-border px-4 py-4">
-        <p className="text-xs text-ifb-text-light uppercase tracking-wider font-medium mb-3">
-          Passo {currentStep + 1} de {steps.length}
-        </p>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs text-ifb-text-light uppercase tracking-wider font-medium">
+            Passo {currentStep + 1} de {steps.length}
+          </p>
+          <button
+            onClick={speakFullRoute}
+            className="flex items-center gap-1.5 text-xs font-medium text-ifb-green hover:text-ifb-green-dark transition-colors min-h-[36px] px-2 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
+          >
+            <Icon name="volume" size={14} strokeWidth={2} />
+            Ouvir rota completa
+          </button>
+        </div>
         <div className="flex gap-2 mb-4">
           {steps.map((_, i) => (
             <div

@@ -20,11 +20,13 @@
  * @author IFB NavAR Team
  */
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
 import BackButton from '../components/BackButton.jsx'
 import { locations } from '../data/locations.js'
 
 export default function Accessibility() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('config')
 
   // Estado das configurações — persistido em localStorage
@@ -40,12 +42,17 @@ export default function Accessibility() {
   // Estado do comando de voz
   const [listening, setListening] = useState(false)
   const [voiceResult, setVoiceResult] = useState(null)
+  const [savedRoute, setSavedRoute] = useState(null)
+  const [isSpeakingRoute, setIsSpeakingRoute] = useState(false)
   const recognitionRef = useRef(null)
 
   // Carrega configurações salvas ao montar
   useEffect(() => {
     const saved = localStorage.getItem('ifb-accessibility')
     if (saved) setSettings(JSON.parse(saved))
+    // Carrega rota salva
+    const nav = localStorage.getItem('ifb-navigation')
+    if (nav) setSavedRoute(JSON.parse(nav))
   }, [])
 
   // Salva configurações e aplica efeitos visuais no body
@@ -72,6 +79,44 @@ export default function Accessibility() {
     utterance.lang = 'pt-BR'
     utterance.rate = 0.95
     window.speechSynthesis.speak(utterance)
+  }
+
+  // Gera o texto completo da rota salva para leitura
+  const getRouteText = () => {
+    if (!savedRoute) return ''
+    const dest = locations.find((l) => l.id === savedRoute.destination)
+    if (!dest) return ''
+    const parts = (dest.location || '').split('·').map((s) => s.trim())
+    const block = parts[0] || 'o bloco'
+    const floor = parts[1] || 'o térreo'
+    return `Rota para ${dest.name}. Tempo estimado: ${dest.time}. Distância: ${dest.distance}. ` +
+      `Passo 1: Saia da entrada principal do campus. ` +
+      `Passo 2: Vá em direção ao ${block}. ` +
+      `Passo 3: Entre no ${block}. ` +
+      `Passo 4: Procure no ${floor}. ` +
+      `Passo 5: Você chegou ao seu destino.`
+  }
+
+  // Lê a rota salva em voz alta
+  const speakSavedRoute = () => {
+    const text = getRouteText()
+    if (!text) return
+    if (!('speechSynthesis' in window)) {
+      alert('Seu navegador não suporta síntese de voz.')
+      return
+    }
+    window.speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'pt-BR'
+    utterance.rate = 0.9
+    utterance.onstart = () => setIsSpeakingRoute(true)
+    utterance.onend = () => setIsSpeakingRoute(false)
+    window.speechSynthesis.speak(utterance)
+  }
+
+  const stopSpeaking = () => {
+    window.speechSynthesis?.cancel()
+    setIsSpeakingRoute(false)
   }
 
   // Inicia o reconhecimento de voz (Web Speech API)
@@ -244,6 +289,60 @@ export default function Accessibility() {
       {/* ===== ABA: Comando de Voz ===== */}
       {activeTab === 'voice' && (
         <div className="space-y-6">
+          {/* Rota salva — ouvir o trajeto gravado */}
+          {savedRoute && (() => {
+            const dest = locations.find((l) => l.id === savedRoute.destination)
+            if (!dest) return null
+            return (
+              <div className="card p-6 border-2 border-ifb-green/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <Icon name="route" size={18} strokeWidth={2} className="text-ifb-green" />
+                  <h2 className="text-base font-semibold tracking-tight text-ifb-text">Rota Salva</h2>
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ml-auto ${
+                    savedRoute.mode === 'ar' ? 'bg-ifb-green text-white' : 'bg-ifb-green-light text-ifb-green'
+                  }`}>
+                    {savedRoute.mode === 'ar' ? 'AR' : 'Normal'}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-ifb-gray mb-4">
+                  <span className="text-2xl">{dest.icon}</span>
+                  <div className="flex-1">
+                    <p className="font-semibold text-sm text-ifb-text">{dest.name}</p>
+                    <p className="text-xs text-ifb-text-light">
+                      {dest.time} · {dest.distance} · {dest.location}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  {!isSpeakingRoute ? (
+                    <button
+                      onClick={speakSavedRoute}
+                      className="btn-primary flex-1 justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
+                    >
+                      <Icon name="volume" size={18} strokeWidth={2} />
+                      Ouvir rota completa
+                    </button>
+                  ) : (
+                    <button
+                      onClick={stopSpeaking}
+                      className="btn-outline flex-1 justify-center animate-pulse focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
+                    >
+                      <Icon name="volume" size={18} strokeWidth={2} />
+                      Parar áudio
+                    </button>
+                  )}
+                  <button
+                    onClick={() => navigate('/navegacao')}
+                    className="btn-outline justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ifb-green/40"
+                  >
+                    <Icon name="route" size={18} strokeWidth={2} />
+                    Navegar
+                  </button>
+                </div>
+              </div>
+            )
+          })()}
+
           {/* Card de comando de voz */}
           <div className="card p-6">
             <div className="flex items-center gap-3 mb-4">

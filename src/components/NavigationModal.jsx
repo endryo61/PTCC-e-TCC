@@ -15,7 +15,14 @@ import Icon from './Icon.jsx'
 export default function NavigationModal({ location, onClose }) {
   const navigate = useNavigate()
   const [mode, setMode] = useState('ar')
-  const [voiceGuide, setVoiceGuide] = useState(false)
+  const [voiceGuide, setVoiceGuide] = useState(() => {
+    // Lê a configuração de voz salva na acessibilidade
+    const a11y = localStorage.getItem('ifb-accessibility')
+    if (a11y) {
+      try { return JSON.parse(a11y).voiceGuide || false } catch { return false }
+    }
+    return false
+  })
 
   if (!location) return null
 
