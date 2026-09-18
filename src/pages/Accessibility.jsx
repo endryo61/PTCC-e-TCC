@@ -61,6 +61,12 @@ export default function Accessibility() {
     document.body.classList.toggle('high-contrast', settings.highContrast)
     document.body.classList.toggle('large-text', settings.largeText)
     document.body.classList.toggle('reduce-animations', settings.reduceAnimations)
+
+    // Daltonismo — remove classes anteriores e aplica a atual
+    document.body.classList.remove('cb-protanopia', 'cb-deuteranopia', 'cb-tritanopia')
+    if (settings.colorBlindness === 'Protanopia') document.body.classList.add('cb-protanopia')
+    else if (settings.colorBlindness === 'Deuteranopia') document.body.classList.add('cb-deuteranopia')
+    else if (settings.colorBlindness === 'Tritanopia') document.body.classList.add('cb-tritanopia')
   }, [settings])
 
   // Alterna uma configuração booleana
