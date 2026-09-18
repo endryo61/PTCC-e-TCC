@@ -24,12 +24,7 @@ export default function NavigationModal({ location, onClose }) {
   const handleStart = () => {
     const prefs = { mode, voiceGuide, destination: location.id, destinationName: location.name }
     localStorage.setItem('ifb-navigation', JSON.stringify(prefs))
-
-    if (mode === 'ar') {
-      navigate('/scanner')
-    } else {
-      navigate('/mapa-interno')
-    }
+    navigate('/navegacao')
     onClose()
   }
 
@@ -52,7 +47,21 @@ export default function NavigationModal({ location, onClose }) {
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="text-lg font-bold text-ifb-text tracking-tight">{location.name}</h2>
-            {subtitle && <p className="text-sm text-ifb-text-light">{subtitle}</p>}
+            <div className="flex items-center gap-3 text-xs text-ifb-text-light mt-0.5">
+              {location.time && (
+                <span className="flex items-center gap-1 font-semibold text-ifb-green">
+                  <Icon name="clock" size={12} strokeWidth={2} />
+                  {location.time}
+                </span>
+              )}
+              {location.distance && (
+                <span className="flex items-center gap-1">
+                  <Icon name="route" size={12} strokeWidth={2} />
+                  {location.distance}
+                </span>
+              )}
+              {subtitle && <span className="truncate">{subtitle}</span>}
+            </div>
           </div>
           <button
             onClick={onClose}

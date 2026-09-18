@@ -26,6 +26,7 @@ import Scanner from './pages/Scanner.jsx'
 import Locations from './pages/Locations.jsx'
 import MapaInterno from './pages/MapaInterno.jsx'
 import Accessibility from './pages/Accessibility.jsx'
+import Navigation from './pages/Navigation.jsx'
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/locais" element={<Locations />} />
           <Route path="/mapa-interno" element={<MapaInterno />} />
           <Route path="/acessibilidade" element={<Accessibility />} />
+          <Route path="/navegacao" element={<Navigation />} />
         </Routes>
       </main>
       <InstallBanner />

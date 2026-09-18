@@ -17,10 +17,23 @@
    quando o usuário ativa as opções em /acessibilidade
    ============================================ */
 body.high-contrast {
-  filter: contrast(1.5);
+  filter: contrast(1.6) saturate(1.3);
+  background: #ffffff;
+}
+body.high-contrast * {
+  border-color: #1a1d23 !important;
+}
+body.high-contrast .text-ifb-text-light {
+  color: #4a4a4a !important;
 }
 body.large-text {
-  font-size: 1.15em;
+  font-size: 1.2em;
+}
+body.large-text .text-xs {
+  font-size: 0.875rem;
+}
+body.large-text .text-sm {
+  font-size: 1rem;
 }
 body.reduce-animations * {
   animation: none !important;
