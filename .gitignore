@@ -1,0 +1,15 @@
+# Dependências (instaladas pelo compose a partir do package-lock.json)
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+
+# Ambiente
+.env
+.env.local
+.env.*.local
+
+# Logs e SO
+*.log
+.DS_Store

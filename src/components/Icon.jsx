@@ -21,7 +21,6 @@ const icons = {
   // Ações
   arrowRight: 'M5 12h14M12 5l7 7-7 7',
   arrowLeft: 'M19 12H5M12 19l-7-7 7-7',
-  chevronRight: 'M9 18l6-6-6-6',
   close: 'M18 6L6 18M6 6l12 12',
   plus: 'M12 5v14M5 12h14',
   minus: 'M5 12h14',
@@ -44,11 +43,6 @@ const icons = {
   signLanguage: 'M9 11V6a2 2 0 1 1 4 0v5 M13 11V4a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6H9a6 6 0 0 1-5-3l-1-2',
   // Locais (ícones de categoria)
   book: 'M4 4a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2V4z M4 18a2 2 0 0 1 2-2h12',
-  building: 'M3 21h18 M5 21V7l8-4v18 M19 21V11l-6-4 M9 9v.01 M9 12v.01 M9 15v.01 M9 18v.01',
-  flask: 'M9 3h6 M10 3v6L5 19a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-10V3 M8 14h8',
-  utensils: 'M3 2v7a3 3 0 0 0 3 3v10 M3 2v3a3 3 0 0 1 6 0 M9 2v20 M16 2v20 M16 8h4 M16 14h4',
-  dumbbell: 'M6 4v16 M2 8v8 M10 6v12 M14 6v12 M18 4v16 M22 8v8 M10 10h4 M10 14h4',
-  graduation: 'M12 4L1 10l11 6 9-4.9V17 M7 13v5a5 3 0 0 0 10 0v-5',
   wheelchair: 'M8 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M8 7v6h8l3 6 M8 13a5 5 0 1 0 5 5',
   // Status
   check: 'M20 6L9 17l-5-5',

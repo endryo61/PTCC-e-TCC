@@ -11,3 +11,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>
 )
+
+// Service worker (PWA) — apenas em produção.
+// Em desenvolvimento/preview ele serviria módulos do Vite obsoletos do cache,
+// duplicando o React e quebrando a página.
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {})
+  })
+}
