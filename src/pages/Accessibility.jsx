@@ -7,59 +7,28 @@
  * 3. Abas: Configurações | Comando de Voz | Libras
  *
  * Funcionalidades:
- * - Toggles persistidos em localStorage (chave: 'ifb-accessibility')
+ * - Toggles persistidos via AccessibilityProvider (contexto global)
  * - Alto Contraste, Texto Grande e Reduzir Animações aplicam classes CSS no <body>
+ * - Daltonismo aplica filtros CSS no <body>
  * - Comando de Voz usa Web Speech API (reconhecimento + síntese)
  * - Aba Libras explica como usar o widget VLibras
  *
- * Para adicionar uma nova configuração:
- * 1. Adicione a chave em `settings` (estado inicial)
- * 2. Adicione uma entrada em `toggles` (se for um toggle)
- * 3. Se precisar de efeito visual, adicione a classe CSS em index.css
- *
  * @author IFB NavAR Team
  */
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import Icon from '../components/Icon.jsx'
 import BackButton from '../components/BackButton.jsx'
+import { useAccessibility } from '../components/AccessibilityProvider.jsx'
 import { locations } from '../data/locations.js'
 
 export default function Accessibility() {
+  const { settings, toggle, updateSetting } = useAccessibility()
   const [activeTab, setActiveTab] = useState('config')
-
-  // Estado das configurações — persistido em localStorage
-  const [settings, setSettings] = useState({
-    voiceGuide: false,
-    highContrast: false,
-    largeText: false,
-    reduceAnimations: false,
-    colorBlindness: 'Nenhum',
-    screenReader: false,
-  })
 
   // Estado do comando de voz
   const [listening, setListening] = useState(false)
   const [voiceResult, setVoiceResult] = useState(null)
   const recognitionRef = useRef(null)
-
-  // Carrega configurações salvas ao montar
-  useEffect(() => {
-    const saved = localStorage.getItem('ifb-accessibility')
-    if (saved) setSettings(JSON.parse(saved))
-  }, [])
-
-  // Salva configurações e aplica efeitos visuais no body
-  useEffect(() => {
-    localStorage.setItem('ifb-accessibility', JSON.stringify(settings))
-    document.body.classList.toggle('high-contrast', settings.highContrast)
-    document.body.classList.toggle('large-text', settings.largeText)
-    document.body.classList.toggle('reduce-animations', settings.reduceAnimations)
-  }, [settings])
-
-  // Alterna uma configuração booleana
-  const toggle = (key) => {
-    setSettings((s) => ({ ...s, [key]: !s[key] }))
-  }
 
   // Síntese de voz — lê o texto em português
   const speak = (text) => {
@@ -90,7 +59,6 @@ export default function Accessibility() {
     recognition.onend = () => setListening(false)
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript.toLowerCase()
-      // Busca local pelo nome falado
       const found = locations.find(
         (l) =>
           l.name.toLowerCase().includes(transcript) ||
@@ -208,6 +176,7 @@ export default function Accessibility() {
                   settings[t.key] ? 'bg-ifb-green' : 'bg-gray-300'
                 }`}
                 aria-label={t.title}
+                aria-pressed={settings[t.key]}
               >
                 <span
                   className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200 ${
@@ -229,7 +198,7 @@ export default function Accessibility() {
             </div>
             <select
               value={settings.colorBlindness}
-              onChange={(e) => setSettings((s) => ({ ...s, colorBlindness: e.target.value }))}
+              onChange={(e) => updateSetting('colorBlindness', e.target.value)}
               className="px-3 py-1.5 rounded-lg border border-ifb-border bg-white text-sm text-ifb-text focus:outline-none focus:ring-2 focus:ring-ifb-green/30 focus:border-ifb-green transition-all shrink-0"
             >
               <option>Nenhum</option>
@@ -333,7 +302,7 @@ export default function Accessibility() {
           <div className="space-y-3">
             <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
               <div className="w-9 h-9 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
-                <Icon name="signLanguage" size={18} strokeWidth={2} />
+                <Icon name="signLanguage" size={18} strokeWidth={1.8} />
               </div>
               <div>
                 <p className="font-medium text-sm text-ifb-text">Widget VLibras ativo</p>
@@ -342,7 +311,7 @@ export default function Accessibility() {
             </div>
             <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
               <div className="w-9 h-9 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
-                <Icon name="book" size={18} strokeWidth={2} />
+                <Icon name="book" size={18} strokeWidth={1.8} />
               </div>
               <div>
                 <p className="font-medium text-sm text-ifb-text">Como usar</p>
@@ -351,7 +320,7 @@ export default function Accessibility() {
             </div>
             <div className="flex items-center gap-3 p-3 rounded-xl border border-ifb-border">
               <div className="w-9 h-9 rounded-lg bg-ifb-green-light flex items-center justify-center text-ifb-green shrink-0">
-                <Icon name="accessibility" size={18} strokeWidth={2} />
+                <Icon name="accessibility" size={18} strokeWidth={1.8} />
               </div>
               <div>
                 <p className="font-medium text-sm text-ifb-text">Acessibilidade total</p>

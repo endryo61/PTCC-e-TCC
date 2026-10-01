@@ -52,7 +52,7 @@ export default function LocationCard({ location }) {
 
       {/* Botão de navegação */}
       <button
-        onClick={() => navigate('/scanner')}
+        onClick={() => navigate(`/navegacao-ar/${location.id}`)}
         className="flex items-center gap-1.5 text-ifb-green font-medium text-sm hover:gap-2.5 transition-all self-start group"
       >
         Navegar

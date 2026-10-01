@@ -17,6 +17,7 @@
  * @author IFB NavAR Team
  */
 import { Routes, Route } from 'react-router-dom'
+import { AccessibilityProvider } from './components/AccessibilityProvider.jsx'
 import Navbar from './components/Navbar.jsx'
 import InstallBanner from './components/InstallBanner.jsx'
 import FeedbackButton from './components/FeedbackButton.jsx'
@@ -26,23 +27,27 @@ import Scanner from './pages/Scanner.jsx'
 import Locations from './pages/Locations.jsx'
 import MapaInterno from './pages/MapaInterno.jsx'
 import Accessibility from './pages/Accessibility.jsx'
+import ARNavigation from './pages/ARNavigation.jsx'
 
 export default function App() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <main className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/scanner" element={<Scanner />} />
-          <Route path="/locais" element={<Locations />} />
-          <Route path="/mapa-interno" element={<MapaInterno />} />
-          <Route path="/acessibilidade" element={<Accessibility />} />
-        </Routes>
-      </main>
-      <InstallBanner />
-      <FeedbackButton />
-      <VLibras />
-    </div>
+    <AccessibilityProvider>
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/scanner" element={<Scanner />} />
+            <Route path="/locais" element={<Locations />} />
+            <Route path="/mapa-interno" element={<MapaInterno />} />
+            <Route path="/acessibilidade" element={<Accessibility />} />
+            <Route path="/navegacao-ar/:locationId" element={<ARNavigation />} />
+          </Routes>
+        </main>
+        <InstallBanner />
+        <FeedbackButton />
+        <VLibras />
+      </div>
+    </AccessibilityProvider>
   )
 }

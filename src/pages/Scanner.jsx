@@ -127,7 +127,7 @@ export default function Scanner() {
             {simulateLocations.map((loc) => (
               <button
                 key={loc.id}
-                onClick={() => navigate('/locais')}
+                onClick={() => navigate(`/navegacao-ar/${loc.id}`)}
                 className="flex items-center gap-2 p-3 rounded-xl border border-ifb-border hover:bg-gray-50 transition-colors text-left"
               >
                 <span className="text-xl">{loc.icon}</span>
@@ -184,7 +184,7 @@ export default function Scanner() {
             </span>
           </div>
           <button
-            onClick={() => navigate('/acessibilidade')}
+            onClick={() => navigate(`/navegacao-ar/${simulated.id}`)}
             className="btn-primary w-full justify-center"
           >
             <Icon name="route" size={18} strokeWidth={2} />
