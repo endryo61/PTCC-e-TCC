@@ -5,6 +5,7 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
+    restart: on-failure
     ports:
       - "3000:5173"
     environment:
