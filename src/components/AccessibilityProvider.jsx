@@ -24,6 +24,7 @@ const DEFAULT_SETTINGS = {
   reduceAnimations: false,
   colorBlindness: 'Nenhum',
   screenReader: false,
+  voiceRate: 1, // velocidade da fala (0.5x a 2.0x)
 }
 
 export function AccessibilityProvider({ children }) {

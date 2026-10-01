@@ -11,6 +11,7 @@
  * - Alto Contraste, Texto Grande e Reduzir Animações aplicam classes CSS no <body>
  * - Daltonismo aplica filtros CSS no <body>
  * - Comando de Voz usa Web Speech API (reconhecimento + síntese)
+ * - Velocidade da fala ajustável (preferência global `voiceRate`)
  * - Aba Libras explica como usar o widget VLibras
  *
  * @author IFB NavAR Team
@@ -18,6 +19,7 @@
 import { useState, useRef } from 'react'
 import Icon from '../components/Icon.jsx'
 import BackButton from '../components/BackButton.jsx'
+import VoiceSpeedControl from '../components/VoiceSpeedControl.jsx'
 import { useAccessibility } from '../components/AccessibilityProvider.jsx'
 import { locations } from '../data/locations.js'
 
@@ -39,7 +41,7 @@ export default function Accessibility() {
     window.speechSynthesis.cancel()
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'pt-BR'
-    utterance.rate = 0.95
+    utterance.rate = settings.voiceRate ?? 1
     window.speechSynthesis.speak(utterance)
   }
 
@@ -252,6 +254,27 @@ export default function Accessibility() {
                 )}
               </div>
             )}
+          </div>
+
+          {/* Velocidade da voz — aplicada a todas as instruções de voz do app */}
+          <div className="card p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-11 h-11 rounded-xl bg-ifb-green-light flex items-center justify-center text-ifb-green">
+                <Icon name="gauge" size={22} strokeWidth={1.8} />
+              </div>
+              <div>
+                <h2 className="font-semibold text-ifb-text">Velocidade da Voz</h2>
+                <p className="text-sm text-ifb-text-light">Ouça as orientações no ritmo que preferir (0,5x a 2,0x)</p>
+              </div>
+            </div>
+            <VoiceSpeedControl />
+            <button
+              onClick={() => speak('Assim você vai ouvir as instruções de voz. Ajuste a velocidade como preferir.')}
+              className="btn-outline w-full justify-center mt-3"
+            >
+              <Icon name="volume" size={18} strokeWidth={2} />
+              Ouvir exemplo
+            </button>
           </div>
 
           {/* Guia por voz — lista de locais para ouvir */}

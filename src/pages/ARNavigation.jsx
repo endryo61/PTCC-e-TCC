@@ -8,7 +8,7 @@
  * 4. Barra de progresso da rota
  * 5. Instruções de voz automáticas (Web Speech API)
  * 6. Botão "Ouvir novamente" para repetir a instrução atual
- * 7. Controle de velocidade da fala (0.5x a 2.0x)
+ * 7. Controle de velocidade da fala (0.5x a 2.0x) — preferência global persistida
  * 8. Tela de chegada ao destino
  *
  * @author IFB NavAR Team
@@ -16,6 +16,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
+import VoiceSpeedControl from '../components/VoiceSpeedControl.jsx'
+import { useAccessibility } from '../components/AccessibilityProvider.jsx'
 import { locations, mapLocations } from '../data/locations.js'
 
 const SIM_DURATION = 30 // duração da simulação em segundos
@@ -34,8 +36,11 @@ export default function ARNavigation() {
   const [cameraError, setCameraError] = useState(null)
   const [progress, setProgress] = useState(0)
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
-  const [speechRate, setSpeechRate] = useState(1.0)
   const [isSpeaking, setIsSpeaking] = useState(false)
+
+  // Velocidade da fala — preferência global, ajustável aqui e em /acessibilidade
+  const { settings } = useAccessibility()
+  const speechRate = settings.voiceRate ?? 1
 
   const videoRef = useRef(null)
   const streamRef = useRef(null)
@@ -309,22 +314,8 @@ export default function ARNavigation() {
                 Parar
               </button>
             </div>
-            {/* Controle de velocidade da fala */}
-            <div className="flex items-center gap-3 bg-white/15 backdrop-blur-md rounded-xl px-4 py-3 border border-white/10">
-              <Icon name="gauge" size={18} strokeWidth={2} className="text-white/70 shrink-0" />
-              <span className="text-white/70 text-xs font-medium shrink-0">Velocidade da voz</span>
-              <input
-                type="range"
-                min="0.5"
-                max="2"
-                step="0.1"
-                value={speechRate}
-                onChange={(e) => setSpeechRate(parseFloat(e.target.value))}
-                className="flex-1 accent-ifb-green"
-                aria-label="Velocidade da fala"
-              />
-              <span className="text-white text-sm font-bold w-10 text-right tabular-nums">{speechRate.toFixed(1)}x</span>
-            </div>
+            {/* Controle de velocidade da fala (preferência global) */}
+            <VoiceSpeedControl variant="overlay" />
           </div>
         )}
 
