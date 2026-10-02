@@ -48,6 +48,10 @@ export function AccessibilityProvider({ children }) {
     document.body.classList.toggle('large-text', settings.largeText)
     document.body.classList.toggle('reduce-animations', settings.reduceAnimations)
 
+    // Texto Grande — escala a fonte raiz, para que todas as medidas em rem
+    // do Tailwind cresçam de verdade (antes, o body não afetava o rem).
+    document.documentElement.style.fontSize = settings.largeText ? '115%' : ''
+
     // Filtros de daltonismo
     document.body.classList.remove('cb-protanopia', 'cb-deuteranopia', 'cb-tritanopia')
     if (settings.colorBlindness === 'Protanopia') document.body.classList.add('cb-protanopia')

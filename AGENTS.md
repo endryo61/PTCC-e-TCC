@@ -22,6 +22,22 @@ App is served on port 3000 (mapped to Vite dev server on 5173).
 - `/locais` — List of campus locations with search
 - `/acessibilidade` — Voice guide, voice command, accessible routes
 
+## Design tokens
+- As cores vivem em variáveis CSS em `src/index.css` (`--ifb-*`, em canais RGB) e o
+  `tailwind.config.js` aponta para elas. É isso que permite Alto Contraste e Daltonismo
+  trocarem a paleta em todo o app; não volte a hex fixo no config.
+- Animações da identidade "Verde ao ar livre" (`rise`, `bob`, `orbit`) ficam em
+  `src/index.css` e são desligadas por `body.reduce-animations` e por `prefers-reduced-motion`.
+
+## Accessibility
+- "Texto Grande" muda a fonte raiz do `html` no `AccessibilityProvider` — as medidas do
+  Tailwind são em rem, então mexer só no `body` não escala nada.
+
+## Notas de setup
+- O service worker do PWA só é registrado em produção; em dev o `src/main.jsx` desregistra
+  SWs antigos e limpa caches (um SW velho serve módulos do Vite obsoletos e trava o preview).
+- Mudanças no `tailwind.config.js` exigem `docker compose restart web` (o PostCSS cacheia o config).
+
 ## Verification
 - Check `docker compose ps` for healthy web service
 - curl `localhost:3000` returns the app HTML

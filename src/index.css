@@ -3,17 +3,15 @@
  *
  * Estrutura:
  * 1. Tailwind directives (base, components, utilities)
- * 2. Classes de acessibilidade (aplicadas dinamicamente via JS)
- * 3. Reset básico e tipografia
- * 4. Componentes reutilizáveis (botões, cards, badges)
+ * 2. Tokens de cor (variáveis usadas pelo tailwind.config.js)
+ * 3. Classes de acessibilidade (aplicadas dinamicamente via JS)
+ * 4. Reset básico e tipografia
+ * 5. Componentes reutilizáveis (botões, cards, badges) e animações
  *
- * Paleta de cores (definida em tailwind.config.js):
- * - ifb-green: #1e7e48 (verde institucional)
- * - ifb-green-dark: #176b3c (hover)
- * - ifb-green-light: #e6f2eb (fundo claro)
- * - ifb-border: #e2e8f0 (bordas sutis)
- * - ifb-text: #1a2e1a (texto principal — tom levemente verde)
- * - ifb-text-light: #64748b (texto secundário)
+ * Direção visual: "Verde ao ar livre" — fundo creme, verde #3FA86A,
+ * cantos generosos, tipografia pesada com tracking apertado e movimento suave.
+ * As cores ficam em variáveis CSS para que Alto Contraste e Daltonismo
+ * possam trocar a paleta de verdade, em todo o app.
  */
 
 @tailwind base;
@@ -21,34 +19,88 @@
 @tailwind utilities;
 
 /* ============================================
+   TOKENS DE COR
+   ============================================ */
+:root {
+  --ifb-green: 63 168 106;        /* #3FA86A — destaque */
+  --ifb-green-dark: 50 141 87;    /* #328D57 — hover */
+  --ifb-green-light: 234 247 239; /* #EAF7EF — fundo suave */
+  --ifb-gray: 241 250 243;        /* #F1FAF3 — faixa de seção */
+  --ifb-border: 223 236 225;      /* #DFECE1 */
+  --ifb-text: 18 38 26;           /* #12261A — texto principal */
+  --ifb-text-light: 108 126 112;  /* #6C7E70 — texto secundário */
+  --ifb-cream: 255 253 247;       /* #FFFDF7 — fundo da página */
+  --ifb-amber: 255 231 163;       /* #FFE7A3 — foco e realce */
+}
+
+/* ============================================
    ACESSIBILIDADE — Classes aplicadas via JS
    quando o usuário ativa as opções em /acessibilidade
    ============================================ */
+
+/* Alto Contraste — troca a paleta por preto/branco e verde escuro,
+   remove sombras difusas e reforça as bordas (antes era só um filtro,
+   que quase não mudava a tela). */
 body.high-contrast {
-  filter: contrast(1.5);
+  --ifb-green: 11 92 51;
+  --ifb-green-dark: 5 61 33;
+  --ifb-green-light: 255 255 255;
+  --ifb-gray: 255 255 255;
+  --ifb-border: 17 17 17;
+  --ifb-text: 0 0 0;
+  --ifb-text-light: 26 26 26;
+  --ifb-cream: 255 255 255;
 }
-body.large-text {
-  font-size: 1.15em;
+body.high-contrast * {
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
+body.high-contrast .card,
+body.high-contrast input,
+body.high-contrast select,
+body.high-contrast textarea {
+  border-width: 2px !important;
+}
+
+/* Texto Grande — o tamanho raiz é ajustado no AccessibilityProvider
+   (assim todas as medidas em rem do Tailwind escalam de verdade). */
+
+/* Daltonismo — troca a cor de destaque por uma que não depende de
+   vermelho/verde, evitando confusão entre tons próximos. */
+body.cb-protanopia {
+  --ifb-green: 21 110 190;        /* azul */
+  --ifb-green-dark: 13 84 148;
+  --ifb-green-light: 232 242 252;
+}
+body.cb-deuteranopia {
+  --ifb-green: 92 76 214;         /* violeta */
+  --ifb-green-dark: 68 54 178;
+  --ifb-green-light: 238 235 253;
+}
+body.cb-tritanopia {
+  --ifb-green: 190 74 22;         /* laranja */
+  --ifb-green-dark: 152 56 14;
+  --ifb-green-light: 253 238 228;
+}
+
+/* Reduzir Animações */
 body.reduce-animations * {
   animation: none !important;
   transition: none !important;
 }
 
-/* Daltonismo — filtros CSS para ajuste de cores */
-body.cb-protanopia {
-  filter: contrast(1.15) saturate(1.3) hue-rotate(-10deg);
-}
-body.cb-deuteranopia {
-  filter: contrast(1.15) saturate(1.3) hue-rotate(10deg);
-}
-body.cb-tritanopia {
-  filter: contrast(1.15) saturate(1.2) hue-rotate(180deg);
+/* Foco visível — realce âmbar da paleta */
+.btn-primary:focus-visible,
+.btn-outline:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid rgb(var(--ifb-amber));
+  outline-offset: 3px;
 }
 
 /* Leitor de tela — foco visível mais destacado */
-body[data-screen-reader="on"] *:focus {
-  outline: 3px solid #1e7e48 !important;
+body[data-screen-reader='on'] *:focus {
+  outline: 3px solid rgb(var(--ifb-green)) !important;
   outline-offset: 2px !important;
 }
 
@@ -70,34 +122,86 @@ body > div[vw] {
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #f8faf9;
-  color: #1a2e1a;
+  background: rgb(var(--ifb-cream));
+  color: rgb(var(--ifb-text));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.045em;
+}
+
+/* ============================================
+   ANIMAÇÕES — "Verde ao ar livre"
+   ============================================ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rise-1 { animation: rise 0.55s ease both; }
+.rise-2 { animation: rise 0.65s 0.1s ease both; }
+.rise-3 { animation: rise 0.65s 0.2s ease both; }
+.rise-4 { animation: rise 0.65s 0.3s ease both; }
+.rise-frame { animation: rise 0.75s 0.15s ease both; }
+.rise-card { animation: rise 0.65s ease both; }
+.chip-float { animation: bob 4.2s ease-in-out infinite; }
+.orbit-ring { animation: orbit 28s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /* ============================================
    COMPONENTES REUTILIZÁVEIS
    ============================================ */
 @layer components {
-  /* Botão primário — verde institucional */
+  /* Botão primário — verde de destaque */
   .btn-primary {
-    @apply inline-flex items-center gap-2 bg-ifb-green text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-ifb-green-dark transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply inline-flex items-center justify-center gap-2.5 bg-ifb-green text-white font-bold text-sm px-[19px] py-3.5 rounded-[14px] shadow-[0_8px_18px_#3fa86a33] transition-[background-color,box-shadow,transform] duration-200 hover:bg-ifb-green-dark hover:shadow-[0_10px_24px_#3fa86a45] active:translate-y-px;
   }
 
   /* Botão secundário — contorno */
   .btn-outline {
-    @apply inline-flex items-center gap-2 border border-ifb-border bg-white text-ifb-text font-semibold px-5 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200;
+    @apply inline-flex items-center justify-center gap-2.5 bg-white text-ifb-text font-bold text-sm px-[19px] py-3.5 rounded-[14px] border border-ifb-border shadow-[0_3px_10px_#17341b0a] transition-[background-color,color,box-shadow] duration-200 hover:bg-ifb-green-light;
   }
 
   /* Badge/tag — fundo verde claro */
   .badge {
-    @apply inline-flex items-center gap-1.5 bg-ifb-green-light text-ifb-green text-sm font-medium px-3 py-1 rounded-full;
+    @apply inline-flex items-center gap-2 bg-ifb-green-light text-ifb-green border border-ifb-border text-[13px] font-bold px-3.5 py-2 rounded-full;
   }
 
   /* Card padrão */
   .card {
-    @apply bg-white rounded-2xl border border-ifb-border transition-all duration-200;
+    @apply bg-ifb-cream rounded-[21px] border border-ifb-border shadow-[0_5px_16px_#183b1d08] transition-all duration-300;
   }
 }

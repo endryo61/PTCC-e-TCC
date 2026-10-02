@@ -1,26 +1,36 @@
 /** @type {import('tailwindcss').Config} */
+
+// As cores apontam para variáveis CSS (definidas em index.css) em canais RGB,
+// para que Alto Contraste e Daltonismo possam trocar a paleta em todo o app.
+const token = (name) => ({ opacityValue }) =>
+  opacityValue === undefined
+    ? `rgb(var(--ifb-${name}) / 1)`
+    : `rgb(var(--ifb-${name}) / ${opacityValue})`
+
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
         ifb: {
-          green: '#1e7e48',
-          'green-dark': '#176b3c',
-          'green-light': '#e6f2eb',
-          gray: '#f8faf9',
-          border: '#e2e8f0',
-          text: '#1a2e1a',
-          'text-light': '#64748b',
+          green: token('green'),
+          'green-dark': token('green-dark'),
+          'green-light': token('green-light'),
+          gray: token('gray'),
+          border: token('border'),
+          text: token('text'),
+          'text-light': token('text-light'),
+          cream: token('cream'),
+          amber: token('amber'),
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
-        'soft': '0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px 0 rgb(0 0 0 / 0.04)',
-        'card': '0 2px 8px -2px rgb(0 0 0 / 0.08), 0 1px 3px -1px rgb(0 0 0 / 0.04)',
-        'card-hover': '0 8px 24px -4px rgb(0 0 0 / 0.12), 0 2px 8px -2px rgb(0 0 0 / 0.06)',
+        soft: '0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px 0 rgb(0 0 0 / 0.04)',
+        card: '0 5px 16px #183b1d08',
+        'card-hover': '0 14px 26px #183b1d12',
       },
     },
   },

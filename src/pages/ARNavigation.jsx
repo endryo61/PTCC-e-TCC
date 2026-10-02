@@ -9,7 +9,8 @@
  * 5. Instruções de voz automáticas (Web Speech API)
  * 6. Botão "Ouvir novamente" para repetir a instrução atual
  * 7. Controle de velocidade da fala (0.5x a 2.0x) — preferência global persistida
- * 8. Tela de chegada ao destino
+ * 8. Escolha do modo antes de iniciar (AR com câmera ou modo simples)
+ * 9. Tela de chegada ao destino
  *
  * @author IFB NavAR Team
  */
@@ -34,6 +35,8 @@ export default function ARNavigation() {
   const [navigating, setNavigating] = useState(false)
   const [arrived, setArrived] = useState(false)
   const [cameraError, setCameraError] = useState(null)
+  const [showModeChoice, setShowModeChoice] = useState(false)
+  const [usingCamera, setUsingCamera] = useState(false)
   const [progress, setProgress] = useState(0)
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const [isSpeaking, setIsSpeaking] = useState(false)
@@ -101,8 +104,15 @@ export default function ARNavigation() {
     }
   }
 
-  const startNavigation = async () => {
-    await startCamera()
+  // Inicia a navegação no modo escolhido pelo usuário (AR com câmera ou modo simples)
+  const startNavigation = async (withCamera) => {
+    setShowModeChoice(false)
+    setUsingCamera(withCamera)
+    if (withCamera) {
+      await startCamera()
+    } else {
+      stopCamera()
+    }
     setNavigating(true)
     setArrived(false)
     setProgress(0)
@@ -176,7 +186,7 @@ export default function ARNavigation() {
 
   const currentStep = steps[currentStepIndex] || steps[0]
   const arrowRotation = { forward: 0, right: 90, left: -90 }[currentStep?.direction] || 0
-  const hasCamera = !!(videoRef.current?.srcObject)
+  const hasCamera = usingCamera && !!(videoRef.current?.srcObject)
 
   return (
     <div className="fixed inset-0 z-50 bg-gray-900 overflow-hidden">
@@ -282,11 +292,11 @@ export default function ARNavigation() {
                 <span>{formatDistance(totalMeters)}</span>
               </div>
               <button
-                onClick={startNavigation}
-                className="flex items-center gap-2 bg-ifb-green text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-ifb-green-dark transition-colors shadow-lg"
+                onClick={() => setShowModeChoice(true)}
+                className="flex items-center gap-2 bg-ifb-green text-white font-bold px-8 py-3.5 rounded-[14px] hover:bg-ifb-green-dark transition-colors shadow-[0_8px_18px_#3fa86a45]"
               >
                 <Icon name="ar" size={20} strokeWidth={2} />
-                Iniciar Navegação AR
+                Iniciar navegação
               </button>
             </div>
           )}
@@ -336,6 +346,45 @@ export default function ARNavigation() {
         {cameraError && (
           <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-yellow-500/90 text-white text-xs px-4 py-2 rounded-lg backdrop-blur-md whitespace-nowrap">
             {cameraError}
+          </div>
+        )}
+
+        {/* Escolha do modo — perguntada antes de iniciar a navegação */}
+        {showModeChoice && (
+          <div className="absolute inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modo-navegacao-titulo"
+              className="w-full max-w-sm bg-ifb-cream rounded-[24px] p-6 shadow-[0_20px_50px_#00000066]"
+            >
+              <div className="w-12 h-12 rounded-[15px] bg-ifb-green-light text-ifb-green grid place-items-center mb-4">
+                <Icon name="ar" size={24} strokeWidth={1.8} />
+              </div>
+              <h2 id="modo-navegacao-titulo" className="text-lg font-extrabold text-ifb-text mb-1.5">
+                Como você quer navegar?
+              </h2>
+              <p className="text-sm text-ifb-text-light leading-relaxed mb-5">
+                O AR usa a câmera e sobrepõe as setas ao ambiente. No modo simples a seta
+                aparece na tela, sem usar a câmera.
+              </p>
+              <div className="space-y-2.5">
+                <button onClick={() => startNavigation(true)} className="btn-primary w-full">
+                  <Icon name="ar" size={18} strokeWidth={2} />
+                  Usar AR com câmera
+                </button>
+                <button onClick={() => startNavigation(false)} className="btn-outline w-full">
+                  <Icon name="route" size={18} strokeWidth={2} />
+                  Modo simples (sem câmera)
+                </button>
+              </div>
+              <button
+                onClick={() => setShowModeChoice(false)}
+                className="w-full text-center text-sm font-medium text-ifb-text-light hover:text-ifb-text mt-4 transition-colors"
+              >
+                Cancelar
+              </button>
+            </div>
           </div>
         )}
       </div>

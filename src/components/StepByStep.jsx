@@ -14,19 +14,19 @@ const steps = [
 
 export default function StepByStep() {
   return (
-    <section className="py-16 lg:py-20 bg-ifb-gray">
+    <section className="py-[76px] lg:py-[81px] bg-ifb-cream">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-2xl lg:text-3xl font-bold text-center text-ifb-text mb-12">
+        <h2 className="text-[30px] lg:text-[37px] leading-[1.1] tracking-[-0.055em] font-extrabold text-center text-ifb-text mb-11">
           Simples e rápido
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
           {steps.map((s) => (
-            <div key={s.num} className="text-center">
-              <div className="w-14 h-14 mx-auto rounded-2xl bg-ifb-green text-white text-lg font-bold flex items-center justify-center mb-4 shadow-soft">
+            <div key={s.num} className="relative text-center px-[13px]">
+              <div className="w-[54px] h-[54px] mx-auto mb-[18px] rounded-[18px] bg-ifb-green text-white text-[17px] font-extrabold grid place-items-center shadow-[0_8px_18px_#3fa86a38]">
                 {s.num}
               </div>
-              <h3 className="font-semibold text-ifb-text mb-1.5 text-[15px]">{s.title}</h3>
-              <p className="text-sm text-ifb-text-light leading-relaxed">{s.desc}</p>
+              <h3 className="text-[15px] font-extrabold text-ifb-text mb-2">{s.title}</h3>
+              <p className="text-[13px] leading-[1.65] text-ifb-text-light">{s.desc}</p>
             </div>
           ))}
         </div>
