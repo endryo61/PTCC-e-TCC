@@ -1,5 +1,5 @@
 # IFB NavAR — Navegação Acessível do Campus
-
+LINK PRA TESTAR O IFMAPS : https://guia-ifb-copy-copy-9cb972d9.base44.app
 Aplicação web progressiva (PWA) para navegação no campus do **Instituto Federal de Brasília (IFB)** com QR Code, realidade aumentada, guia por voz e acessibilidade completa — incluindo tradução para Libras via VLibras.
 
 ## 🎯 Sobre o projeto
